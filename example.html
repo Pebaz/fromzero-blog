@@ -6,49 +6,16 @@
         background-size: contain; */
     }
 
-    .rounded-container {
+    /*
+    .animated-div {
         position: relative;
-        display: inline-block;
         width: 200px;
         height: 200px;
-        border-radius: 12.5%;
-        overflow: hidden;
+        animation: moveUpDown 4s ease-in-out infinite;
     }
-
-    .blurred-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        /* background-image: url('https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80'); */
-        background-size: cover;
-        backdrop-filter: blur(10px);
-    }
-
-    .icon-content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        /* Additional styling for the content inside the icon */
-    }
-</style>
-
-<div class="rounded-container">
-    <div class="blurred-background"></div>
-    <div class="icon-content">Hello World!</div>
-</div>
+    */
 
 
-
-
-
-
-
-
-
-<style>
     .background-container {
         position: relative;
         width: 400px;
@@ -59,6 +26,7 @@
         /* Replace with the URL of your background image */
         background-repeat: no-repeat;
         background-size: cover;
+        animation: moveUpDown 2.3s ease-in-out infinite;
     }
 
     .upper-half {
@@ -72,13 +40,36 @@
     .lower-half {
         position: relative;
         height: 50%;
-        backdrop-filter: blur(10px);
-        /* Adjust the blur amount for the upper half */
+        backdrop-filter: blur(20px);
         z-index: 2;
+    }
+
+
+    @keyframes moveUpDown {
+
+        0%,
+        100% {
+            top: 0;
+        }
+
+        50% {
+            top: 50px;
+        }
     }
 </style>
 
-<div class="background-container">
-    <div class="upper-half">asdf</div>
-    <div class="lower-half">1234</div>
+<div class="animated-div">
+    <div class="background-container">
+        <div class="upper-half">asdf</div>
+        <div class="lower-half">1234</div>
+    </div>
+</div>
+
+<br>
+
+<div class="animated-div">
+    <div class="background-container">
+        <div class="upper-half">asdf</div>
+        <div class="lower-half">1234</div>
+    </div>
 </div>
