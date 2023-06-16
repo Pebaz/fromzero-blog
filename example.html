@@ -1,0 +1,84 @@
+<style>
+    body {
+        background-image: url('https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
+        /* background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain; */
+    }
+
+    .rounded-container {
+        position: relative;
+        display: inline-block;
+        width: 200px;
+        height: 200px;
+        border-radius: 12.5%;
+        overflow: hidden;
+    }
+
+    .blurred-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* background-image: url('https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80'); */
+        background-size: cover;
+        backdrop-filter: blur(10px);
+    }
+
+    .icon-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* Additional styling for the content inside the icon */
+    }
+</style>
+
+<div class="rounded-container">
+    <div class="blurred-background"></div>
+    <div class="icon-content">Hello World!</div>
+</div>
+
+
+
+
+
+
+
+
+
+<style>
+    .background-container {
+        position: relative;
+        width: 400px;
+        height: 200px;
+        border-radius: 9%;
+        overflow: hidden;
+        background-image: url('path/to/background-image.jpg');
+        /* Replace with the URL of your background image */
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .upper-half {
+        position: relative;
+        height: 50%;
+        background-color: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(100px);
+        z-index: 1;
+    }
+
+    .lower-half {
+        position: relative;
+        height: 50%;
+        backdrop-filter: blur(10px);
+        /* Adjust the blur amount for the upper half */
+        z-index: 2;
+    }
+</style>
+
+<div class="background-container">
+    <div class="upper-half">asdf</div>
+    <div class="lower-half">1234</div>
+</div>
