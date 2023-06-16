@@ -26,11 +26,10 @@ template = environment.from_string(open('blog/templates/post.j2').read())
 blog_root = Path('blog')
 
 for post_dir in (blog_root / 'posts').iterdir():
-    print(post_dir)
     properties = json.load((post_dir / 'properties.json').open())
-    print('    ', properties)
-    j2_html = template.render(body='hi', **properties)
-    print('    ', repr(j2_html))
+    post_body = (post_dir / 'post.md').read_text()
+    j2_html = template.render(body=post_body, **properties)
+
 
     with (Path('docs') / post_dir.name).with_suffix('.html').open('w') as file:
         file.write(j2_html)

@@ -2,4 +2,9 @@
 
 From Zero Systems Blog
 
-Tutorial: https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll
+# Used
+
+* Used [Utterances](https://utteranc.es/) to add comments powered by GitHub
+* Used [Ko-Fi](https://ko-fi.com/pebaz) for a tip jar
+* Used Midjourney for background images
+* Used Unsplash for background images
