@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: https://ogp.me/ns#"></html>
+<html prefix="og: https://ogp.me/ns#" data-theme="light">
 <head>
     <title>{{ title }}</title>
     <meta property="og:title" content="{{ title }}" />
@@ -15,17 +15,14 @@
         article:tag - string array - Tag words associated with this article.
     #}
 
-    <!-- Highlight.js syntax highlighting -->
-    <link rel="stylesheet" href="static/highlight/default.min.css">
-    <script src="static/highlight/highlight.min.js"></script>
-    <script>hljs.highlightAll();</script>
+    {% include "highlight.j2" %}
 </head>
 
 <h1>{{ title }}</h1>
 <h3>{{ subtitle }}</h3>
 <h4><i>{{ date }}</i></h3>
 
-{% include 'rss.j2' %}
+{% include "rss.j2" %}
 
 <div>
     <img src="{{ cover_image }}" width=15%>
@@ -43,6 +40,6 @@
 
 {% include "utterances.j2" %}
 
-{% include 'ko-fi.j2' %}
+{% include "ko-fi.j2" %}
 
 </html>
