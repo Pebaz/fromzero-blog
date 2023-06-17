@@ -1,0 +1,75 @@
+<style>
+    body {
+        background-image: url('https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
+        /* background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain; */
+    }
+
+    /*
+    .animated-div {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        animation: moveUpDown 4s ease-in-out infinite;
+    }
+    */
+
+
+    .background-container {
+        position: relative;
+        width: 400px;
+        height: 200px;
+        border-radius: 9%;
+        overflow: hidden;
+        background-image: url('path/to/background-image.jpg');
+        /* Replace with the URL of your background image */
+        background-repeat: no-repeat;
+        background-size: cover;
+        animation: moveUpDown 2.3s ease-in-out infinite;
+    }
+
+    .upper-half {
+        position: relative;
+        height: 50%;
+        background-color: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(100px);
+        z-index: 1;
+    }
+
+    .lower-half {
+        position: relative;
+        height: 50%;
+        backdrop-filter: blur(20px);
+        z-index: 2;
+    }
+
+
+    @keyframes moveUpDown {
+
+        0%,
+        100% {
+            top: 0;
+        }
+
+        50% {
+            top: 50px;
+        }
+    }
+</style>
+
+<div class="animated-div">
+    <div class="background-container">
+        <div class="upper-half">asdf</div>
+        <div class="lower-half">1234</div>
+    </div>
+</div>
+
+<br>
+
+<div class="animated-div">
+    <div class="background-container">
+        <div class="upper-half">asdf</div>
+        <div class="lower-half">1234</div>
+    </div>
+</div>
