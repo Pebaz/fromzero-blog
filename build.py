@@ -33,8 +33,12 @@ fg.language('en')
 # TODO(pbz): fg.link( href='http://larskiesow.de/test.rss', rel='self')
 
 post_j2 = environment.get_template('post.j2')
+posts = set()
+
 for post_dir in (blog_root / 'posts').iterdir():
     # Generate post HTML
+    posts.add(post_dir.name)
+
     properties = json.load((post_dir / 'properties.json').open())
     post_body = markdown.markdown(
         (post_dir / 'post.md').read_text(),
@@ -58,5 +62,5 @@ fg.rss_file('docs/rss.xml', pretty=True)
 
 # Write out index.html
 index_j2 = environment.get_template('index.j2')
-index_html = index_j2.render()
+index_html = index_j2.render(posts=posts)
 (Path('docs') / 'index.html').write_text(index_html)
