@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: https://ogp.me/ns#" data-theme="light">
+<html prefix="og: https://ogp.me/ns#">
 <head>
     <title>{{ title }}</title>
     <meta property="og:title" content="{{ title }}" />
@@ -15,6 +15,7 @@
         article:tag - string array - Tag words associated with this article.
     #}
 
+    {% include "light-dark-theme.j2" %}
     {% include "highlight.j2" %}
 </head>
 

@@ -1,0 +1,9 @@
+<script>
+    // Load dark or light mode based on system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.dataset.theme = 'dark';
+    }
+    else {
+        document.documentElement.dataset.theme = 'light';
+    }
+</script>

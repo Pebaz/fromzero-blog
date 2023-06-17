@@ -1,23 +1,29 @@
 <!DOCTYPE html>
-<html prefix="og: https://ogp.me/ns#" data-theme="light">
+<html prefix="og: https://ogp.me/ns#">
 <head>
     <title>Foo Bar Baz</title>
     <meta property="og:title" content="Foo Bar Baz" />
     
 
+    <script>
+    // Load dark or light mode based on system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.dataset.theme = 'dark';
+    }
+    else {
+        document.documentElement.dataset.theme = 'light';
+    }
+</script>
     <script src="static/highlight/highlight.min.js"></script>
 <script>
     // Append CSS syntax highlighting theme element to head
     var highlightjs_theme = document.createElement("link");
     highlightjs_theme.rel = "stylesheet";
 
-    // Load dark or light mode based on system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.dataset.theme = 'dark';
+    if (document.documentElement.dataset.theme == 'dark') {
         highlightjs_theme.href = "static/highlight/srcery.min.css";
     }
     else {
-        document.documentElement.dataset.theme = 'light';
         highlightjs_theme.href = "static/highlight/default.min.css";
     }
 
