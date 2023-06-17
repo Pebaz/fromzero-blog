@@ -9,3 +9,4 @@ From Zero Systems Blog
 * Used Midjourney for background images
 * Used Unsplash for background images
 * Used the [Open Graph Protocol](https://ogp.me/) for URL unrolling
+* Used [opengraph.xyz](https://www.opengraph.xyz/) to preview Open Graph info
