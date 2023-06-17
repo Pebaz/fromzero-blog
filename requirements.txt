@@ -1,3 +1,4 @@
-jsonnet
 jinja2
 markdown
+feedgen
+kdl-py

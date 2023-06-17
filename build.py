@@ -1,14 +1,11 @@
-import sys, json, jinja2, markdown
+import json, jinja2, markdown, datetime
 from pathlib import Path
 from markdown.extensions.fenced_code import FencedCodeExtension
+from feedgen.feed import FeedGenerator
+
 
 # file = Path(sys.argv[1]) if len(sys.argv) == 2 else sys.exit(
 #     print('Usage: main.py <template>')
-# )
-
-# md_to_html = markdown.markdown(
-#     file.read_text(),
-#     extensions=[FencedCodeExtension()]
 # )
 
 # environment = jinja2.Environment()
@@ -21,15 +18,45 @@ from markdown.extensions.fenced_code import FencedCodeExtension
 environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader("blog/templates/")
 )
-template = environment.from_string(open('blog/templates/post.j2').read())
 
 blog_root = Path('blog')
 
+# Create RSS feed generator
+fg = FeedGenerator()
+fg.title('From Zero Systems Blog')
+fg.subtitle('Built From Zero')
+fg.link(href='https://blog.fromzero.systems', rel='self')
+fg.language('en')
+# TODO(pbz): fg.id('http://lernfunk.de/media/654321')
+# TODO(pbz): fg.author( {'name':'Pebaz','email':'john@example.de'} )
+# TODO(pbz): fg.logo('http://ex.com/logo.jpg')
+# TODO(pbz): fg.link( href='http://larskiesow.de/test.rss', rel='self')
+
+post_j2 = environment.get_template('post.j2')
 for post_dir in (blog_root / 'posts').iterdir():
+    # Generate post HTML
     properties = json.load((post_dir / 'properties.json').open())
-    post_body = (post_dir / 'post.md').read_text()
-    j2_html = template.render(body=post_body, **properties)
+    post_body = markdown.markdown(
+        (post_dir / 'post.md').read_text(),
+        extensions=[FencedCodeExtension()]
+    )
+    post_html = post_j2.render(body=post_body, **properties)
+    (Path('docs') / post_dir.name).with_suffix('.html').write_text(post_html)
 
+    # Add post to RSS feed
+    fe = fg.add_entry()
+    fe.title(properties['title'])
+    PACIFIC_TIME = datetime.timedelta(hours=-7)
+    date_only = datetime.datetime.strptime(properties['date'], "%Y-%m-%d")
+    post_date = date_only.replace(tzinfo=datetime.timezone.utc) + PACIFIC_TIME
+    fe.pubDate(post_date)
+    fe.link(href="https://blog.fromzero.systems")
+    # TODO(pbz): fe.id('http://lernfunk.de/media/654321/1')
 
-    with (Path('docs') / post_dir.name).with_suffix('.html').open('w') as file:
-        file.write(j2_html)
+# Write out RSS feed
+fg.rss_file('docs/rss.xml', pretty=True)
+
+# Write out index.html
+index_j2 = environment.get_template('index.j2')
+index_html = index_j2.render()
+(Path('docs') / 'index.html').write_text(index_html)
