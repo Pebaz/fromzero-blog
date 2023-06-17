@@ -58,7 +58,7 @@ for post_dir in (blog_root / 'posts').iterdir():
     # TODO(pbz): fe.id('http://lernfunk.de/media/654321/1')
 
 # Write out RSS feed
-fg.rss_file('docs/rss.xml', pretty=True)
+fg.rss_file('docs/static/rss.xml', pretty=True)
 
 # Write out index.html
 index_j2 = environment.get_template('index.j2')

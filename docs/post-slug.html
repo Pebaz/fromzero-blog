@@ -4,6 +4,11 @@
     <title>Foo Bar Baz</title>
     <meta property="og:title" content="Foo Bar Baz" />
     
+
+    <!-- Highlight.js syntax highlighting -->
+    <link rel="stylesheet" href="static/highlight/default.min.css">
+    <script src="static/highlight/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
 </head>
 
 <h1>Foo Bar Baz</h1>
@@ -14,11 +19,11 @@
     .rss-icon {
         width: 24px;
         height: 24px;
-        color: #000; /* Set your desired color */
+        color: #000;
     }
 </style>
 
-<a href="https://blog.fromzero.systems/rss.xml">
+<a href="static/rss.xml">
     <svg class="rss-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 11a9 9 0 0 1 9 9"></path>
         <path d="M4 4a16 16 0 0 1 16 16"></path>
@@ -32,12 +37,19 @@
 <div>
 
 <p>No need to put the title, that will be added automatically.</p>
-<p><a href="index.md">How do links work?</a></p>
+<p><a href="index.html">How do links work?</a></p>
+<pre><code class="language-rust">fn main()
+{
+    println!(&quot;Hello World!&quot;);
 
-<img src="https://images.unsplash.com/photo-1636716014665-a38c9b33e0c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1689&q=80"
-    width="100%">
+    let x = 123;
+    let y = &amp;x;
 
-<!-- Comments won't work locally -->
+    println!(&quot;{y}&quot;);
+}
+</code></pre>
+
+<!-- Utterances GitHub Issue Comments -->
 <script src="https://utteranc.es/client.js"
     repo="pebaz/fromzero-blog"
     issue-term="og:title"
