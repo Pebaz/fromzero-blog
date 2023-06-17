@@ -1,39 +1,48 @@
 <!DOCTYPE html>
 <html prefix="og: https://ogp.me/ns#">
+
 <head>
     <title>{{ title }}</title>
     <link rel="stylesheet" href="static/css.css">
 
     <meta property="og:title" content="{{ title }}" />
     {#
-        <meta property="og:url" content="https://www.imdb.com/title/tt0117500/" />
-        <meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
-        <meta property="og:type" content="article" />
-        article:published_time - datetime - When the article was first published.
-        article:modified_time - datetime - When the article was last changed.
-        article:expiration_time - datetime - When the article is out of date after.
-        article:author - profile array - Writers of the article.
-        article:section - string - A high-level section name. E.g. Technology
-        article:tag - string array - Tag words associated with this article.
+    <meta property="og:url" content="https://www.imdb.com/title/tt0117500/" />
+    <meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
+    <meta property="og:type" content="article" />
+    article:published_time - datetime - When the article was first published.
+    article:modified_time - datetime - When the article was last changed.
+    article:expiration_time - datetime - When the article is out of date after.
+    article:author - profile array - Writers of the article.
+    article:section - string - A high-level section name. E.g. Technology
+    article:tag - string array - Tag words associated with this article.
     #}
 
     {% include "light-dark-theme.j2" %}
     {% include "highlight.j2" %}
-
-
+    {% include "post-layout.j2" %}
+    {% include "fonts.j2" %}
 </head>
 
 <body>
-    <div class="green page-navigation">
-        <div class="red page-navigation-home">
-            From Zero Systems
-        </div>
-        <div class="red page-navigation-page">
-            About
-        </div>
+    <div class="wrapper">
+        <header class="header">
+
+        </header>
+        <article class="main">
+            <h1>{{ title }}</h1>
+            <h3>{{ subtitle }}</h3>
+            <h4><i>{{ date }}</i></h3>
+
+            {{ body }}
+        </article>
+        <aside class="aside aside-1"></aside>
+        <aside class="aside aside-2"></aside>
+        <footer class="footer">
+            {% include "rss.j2" %}
+        </footer>
     </div>
 
-    <hr>
 
     <div class="green post-container">
 
