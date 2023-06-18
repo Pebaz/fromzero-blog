@@ -22,19 +22,32 @@
     {% include "highlight.j2" %}
     {% include "layout.j2" %}
     {% include "fonts.j2" %}
+
+    <style>
+        .header-image {
+            /*position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            */
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+    </style>
 </head>
 
 <body>
     <div class="wrapper">
         <header class="header">
-
+            <img src="{{ cover_image }}" class="header-image">
         </header>
         <article class="main">
             <h1>{{ title }}</h1>
             <h3>{{ subtitle }}</h3>
             <h4><i>{{ date }}</i></h3>
 
-            {{ body }}
+                {{ body }}
         </article>
         <aside class="aside aside-1"></aside>
         <aside class="aside aside-2"></aside>

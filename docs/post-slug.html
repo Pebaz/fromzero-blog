@@ -164,19 +164,32 @@
         font-weight: bold;
     }
 </style>
+
+    <style>
+        .header-image {
+            /*position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            */
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+    </style>
 </head>
 
 <body>
     <div class="wrapper">
         <header class="header">
-
+            <img src="https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" class="header-image">
         </header>
         <article class="main">
             <h1>Foo Bar Baz</h1>
             <h3>What can be done?</h3>
             <h4><i>2023-06-13</i></h3>
 
-            <p>No need to put the title, that will be added automatically.</p>
+                <p>No need to put the title, that will be added automatically.</p>
 <p><a href="index.html">How do links work?</a></p>
 <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
 <pre><code class="language-rust">struct Thing
