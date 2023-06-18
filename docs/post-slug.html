@@ -34,6 +34,14 @@
     hljs.highlightAll();
 </script>
     <style>
+    body {
+        padding: 2em;
+        background-image: url('https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+    }
+
     .wrapper {
         display: flex;
         flex-flow: row wrap;
@@ -46,24 +54,32 @@
     }
 
     .header {
-        background: tomato;
+        /* background: tomato; */
+        /*border-top-left-radius: 16px;
+        border-top-right-radius: 16px;*/
     }
 
     .footer {
-        background: lightgreen;
+        /* background: lightgreen; */
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        backdrop-filter: blur(100px);
     }
 
     .main {
         text-align: left;
-        background: deepskyblue;
+        /* background: deepskyblue; */
+        border-radius: 16px;
+        /* backdrop-filter: blur(20px); */
+        backdrop-filter: blur(100px);
     }
 
     .aside-1 {
-        background: gold;
+        /* background: gold; */
     }
 
     .aside-2 {
-        background: hotpink;
+        /* background: hotpink; */
     }
 
     @media all and (min-width: 600px) {
@@ -92,10 +108,6 @@
         .footer {
             order: 4;
         }
-    }
-
-    body {
-        padding: 2em;
     }
 </style>
     <style>
@@ -182,7 +194,8 @@
 <body>
     <div class="wrapper">
         <header class="header">
-            <img src="https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" class="header-image">
+            
+            <h1>Hello World!</h1>
         </header>
         <article class="main">
             <h1>Foo Bar Baz</h1>
