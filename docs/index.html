@@ -6,6 +6,71 @@
     <meta property="og:type" content="website" />
 
     <style>
+    .wrapper {
+        display: flex;
+        flex-flow: row wrap;
+        text-align: center;
+    }
+
+    .wrapper>* {
+        padding: 10px;
+        flex: 1 100%;
+    }
+
+    .header {
+        background: tomato;
+    }
+
+    .footer {
+        background: lightgreen;
+    }
+
+    .main {
+        text-align: left;
+        background: deepskyblue;
+    }
+
+    .aside-1 {
+        background: gold;
+    }
+
+    .aside-2 {
+        background: hotpink;
+    }
+
+    @media all and (min-width: 600px) {
+        .aside {
+            flex: 1 0 0;
+        }
+    }
+
+    @media all and (min-width: 800px) {
+        .main {
+            flex: 3 0px;
+        }
+
+        .aside-1 {
+            order: 1;
+        }
+
+        .main {
+            order: 2;
+        }
+
+        .aside-2 {
+            order: 3;
+        }
+
+        .footer {
+            order: 4;
+        }
+    }
+
+    body {
+        padding: 2em;
+    }
+</style>
+    <style>
     @font-face {
         font-family: 'NotoSans';
         src: url('static/fonts/NotoSans/NotoSans-Regular.ttf') format('truetype');
@@ -73,10 +138,28 @@
 </style>
 </head>
 <body>
-    <h1>From Zero Systems Blog</h1>
-    <h3><i>In Development</i></h3>
 
-    <style>
+    <div class="wrapper">
+        <header class="header">
+            <h1>From Zero Systems Blog</h1>
+            <h3><i>In Development</i></h3>
+        </header>
+        <article class="main">
+            <ul>
+                
+                    <li>
+                        <a href="post-slug.html">post-slug</a>
+                        <ul>
+                            <li>2023-06-13</li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </article>
+        <aside class="aside aside-1"></aside>
+        <aside class="aside aside-2"></aside>
+        <footer class="footer">
+            <style>
     .rss-icon {
         width: 24px;
         height: 24px;
@@ -91,12 +174,8 @@
         <circle cx="5" cy="19" r="1"></circle>
     </svg>
 </a>
-
-    <ul>
-        
-            <li><a href="post-slug.html">post-slug</a></li>
-        
-    </ul>
+        </footer>
+    </div>
 
     <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
 <script>

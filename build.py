@@ -33,12 +33,10 @@ fg.language('en')
 # TODO(pbz): fg.link( href='http://larskiesow.de/test.rss', rel='self')
 
 post_j2 = environment.get_template('post.j2')
-posts = set()
+posts = {}
 
 for post_dir in (blog_root / 'posts').iterdir():
     # Generate post HTML
-    posts.add(post_dir.name)
-
     properties = json.load((post_dir / 'properties.json').open())
     post_body = markdown.markdown(
         (post_dir / 'post.md').read_text(),
@@ -46,6 +44,8 @@ for post_dir in (blog_root / 'posts').iterdir():
     )
     post_html = post_j2.render(body=post_body, **properties)
     (Path('docs') / post_dir.name).with_suffix('.html').write_text(post_html)
+
+    posts[post_dir.name] = properties
 
     # Add post to RSS feed
     fe = fg.add_entry()
