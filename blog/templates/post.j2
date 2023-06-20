@@ -41,54 +41,28 @@
     <div class="wrapper">
         <header class="header">
             {# <img src="{{ cover_image }}" class="header-image"> #}
-            <h1>Hello World!</h1>
         </header>
         <article class="main">
-            <h1>{{ title }}</h1>
-            <h3>{{ subtitle }}</h3>
-            <h4><i>{{ date }}</i></h3>
+            <div class="body-container">
+                <div class="body-header">Header</div>
+                <div class="body-content">
+                    <h1>{{ title }}</h1>
+                    <h3>{{ subtitle }}</h3>
+                    <h4><i>{{ date }}</i></h3>
 
-                {{ body }}
+                    {{ body }}
+                </div>
+                <div class="body-footer">
+                    {% include "rss.j2" %}
+                </div>
+            </div>
+
         </article>
         <aside class="aside aside-1"></aside>
         <aside class="aside aside-2"></aside>
-        <footer class="footer">
-            {% include "rss.j2" %}
-        </footer>
+        <footer class="footer"></footer>
     </div>
 
-
-    <div class="green post-container">
-
-        <!--
-
-        <div class="blue post-title">
-            {{ title }}
-        </div>
-
-
-        <h3>{{ subtitle }}</h3>
-        <h4><i>{{ date }}</i></h3>
-
-        {% include "rss.j2" %}
-
-        <div>
-            <img src="{{ cover_image }}" width=15%>
-            {# <img src="https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80"
-                width=15%>
-            <img src="https://plus.unsplash.com/premium_photo-1685082778205-8665f65e8c2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80"
-                width=15%>
-            <img src="https://images.unsplash.com/photo-1554668329-bee7191d83d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-                width="15%">
-            <img src="https://images.unsplash.com/photo-1636716014665-a38c9b33e0c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1689&q=80"
-                width="15%"> #}
-        <div>
-
-        <div class=post-body-container>
-            {{ body }}
-        </div>
-        -->
-    </div>
 
     <!-- Comments do not load locally -->
     {% include "utterances.j2" %}

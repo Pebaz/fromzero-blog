@@ -55,23 +55,19 @@
 
     .header {
         /* background: tomato; */
-        /*border-top-left-radius: 16px;
-        border-top-right-radius: 16px;*/
     }
 
     .footer {
         /* background: lightgreen; */
-        border-bottom-left-radius: 16px;
-        border-bottom-right-radius: 16px;
-        backdrop-filter: blur(100px);
     }
 
     .main {
-        text-align: left;
         /* background: deepskyblue; */
         border-radius: 16px;
-        /* backdrop-filter: blur(20px); */
         backdrop-filter: blur(100px);
+        /* This is so that the body isn't extra padded */
+        margin: 0;
+        padding: 0;
     }
 
     .aside-1 {
@@ -108,6 +104,37 @@
         .footer {
             order: 4;
         }
+    }
+
+
+    .body-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .body-header {
+        background-color: lightgray;
+        padding: 10px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .body-footer {
+        background-color: lightgray;
+        padding: 10px;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .body-content {
+        background-color: white;
+        flex-grow: 2;
+        padding: 10px;
+        background-color: lightgray;
+        text-align: left;
+        background-color: rgba(0, 0, 0, 0);
     }
 </style>
     <style>
@@ -195,14 +222,16 @@
     <div class="wrapper">
         <header class="header">
             
-            <h1>Hello World!</h1>
         </header>
         <article class="main">
-            <h1>Foo Bar Baz</h1>
-            <h3>What can be done?</h3>
-            <h4><i>2023-06-13</i></h3>
+            <div class="body-container">
+                <div class="body-header">Header</div>
+                <div class="body-content">
+                    <h1>Foo Bar Baz</h1>
+                    <h3>What can be done?</h3>
+                    <h4><i>2023-06-13</i></h3>
 
-                <p>No need to put the title, that will be added automatically.</p>
+                    <p>No need to put the title, that will be added automatically.</p>
 <p><a href="index.html">How do links work?</a></p>
 <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
 <pre><code class="language-rust">struct Thing
@@ -222,86 +251,32 @@ fn main()
 }
 </code></pre>
 <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero <strong>sit amet</strong> quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                </div>
+                <div class="body-footer">
+                    <style>
+    .rss-icon {
+        width: 24px;
+        height: 24px;
+        color: #000;
+    }
+</style>
+
+<a href="static/rss.xml">
+    <svg class="rss-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+    </svg>
+</a>
+                </div>
+            </div>
+
         </article>
         <aside class="aside aside-1"></aside>
         <aside class="aside aside-2"></aside>
-        <footer class="footer">
-            <style>
-    .rss-icon {
-        width: 24px;
-        height: 24px;
-        color: #000;
-    }
-</style>
-
-<a href="static/rss.xml">
-    <svg class="rss-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 11a9 9 0 0 1 9 9"></path>
-        <path d="M4 4a16 16 0 0 1 16 16"></path>
-        <circle cx="5" cy="19" r="1"></circle>
-    </svg>
-</a>
-        </footer>
+        <footer class="footer"></footer>
     </div>
 
-
-    <div class="green post-container">
-
-        <!--
-
-        <div class="blue post-title">
-            Foo Bar Baz
-        </div>
-
-
-        <h3>What can be done?</h3>
-        <h4><i>2023-06-13</i></h3>
-
-        <style>
-    .rss-icon {
-        width: 24px;
-        height: 24px;
-        color: #000;
-    }
-</style>
-
-<a href="static/rss.xml">
-    <svg class="rss-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 11a9 9 0 0 1 9 9"></path>
-        <path d="M4 4a16 16 0 0 1 16 16"></path>
-        <circle cx="5" cy="19" r="1"></circle>
-    </svg>
-</a>
-
-        <div>
-            <img src="https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" width=15%>
-            
-        <div>
-
-        <div class=post-body-container>
-            <p>No need to put the title, that will be added automatically.</p>
-<p><a href="index.html">How do links work?</a></p>
-<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-<pre><code class="language-rust">struct Thing
-{
-    item_logical_count: usize,
-    items_physical: Vec&lt;i128&gt;,
-}
-
-fn main()
-{
-    println!(&quot;Hello World!&quot;);
-
-    let x = 123;
-    let y = &amp;x;
-
-    println!(&quot;{y}&quot;);
-}
-</code></pre>
-<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero <strong>sit amet</strong> quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-        </div>
-        -->
-    </div>
 
     <!-- Comments do not load locally -->
     <!-- Utterances GitHub Issue Comments -->
