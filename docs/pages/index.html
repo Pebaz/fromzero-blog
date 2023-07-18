@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html prefix="og: https://ogp.me/ns#">
+<head>
+    <title></title>
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="website" />
+
+    <style>
+    body {
+        padding: 2em;
+        background-image: url('https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-flow: row wrap;
+        text-align: center;
+    }
+
+    .wrapper>* {
+        padding: 10px;
+        flex: 1 100%;
+    }
+
+    .header {
+        /* background: tomato; */
+    }
+
+    .footer {
+        /* background: lightgreen; */
+    }
+
+    .main {
+        /* background: deepskyblue; */
+        border-radius: 16px;
+        backdrop-filter: blur(100px);
+        /* This is so that the body isn't extra padded */
+        margin: 0;
+        padding: 0;
+    }
+
+    .aside-1 {
+        /* background: gold; */
+    }
+
+    .aside-2 {
+        /* background: hotpink; */
+    }
+
+    @media all and (min-width: 600px) {
+        .aside {
+            flex: 1 0 0;
+        }
+    }
+
+    @media all and (min-width: 800px) {
+        .main {
+            flex: 3 0px;
+        }
+
+        .aside-1 {
+            order: 1;
+        }
+
+        .main {
+            order: 2;
+        }
+
+        .aside-2 {
+            order: 3;
+        }
+
+        .footer {
+            order: 4;
+        }
+    }
+
+
+    .body-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .body-header {
+        background-color: lightgray;
+        padding: 10px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .body-footer {
+        background-color: lightgray;
+        padding: 10px;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .body-content {
+        background-color: white;
+        flex-grow: 2;
+        padding: 10px;
+        background-color: lightgray;
+        text-align: left;
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    code {
+        border-radius: 16px;
+    }
+</style>
+    <style>
+    @font-face {
+        font-family: 'NotoSans';
+        src: url('../static/fonts/NotoSans/NotoSans-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'NotoSans';
+        src: url('../static/fonts/NotoSans/NotoSans-Italic.ttf') format('truetype');
+        font-style: italic;
+    }
+
+    @font-face {
+        font-family: 'NotoSans';
+        src: url('../static/fonts/NotoSans/NotoSans-Bold.ttf') format('truetype');
+        font-weight: bold;
+    }
+
+    /* Set these one by one for better code styling */
+    @font-face {
+        font-family: 'NotoSansMono';
+        src: url('../static/fonts/NotoSans/NotoSansMono-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'NotoSansMono';
+        src: url('../static/fonts/NotoSans/NotoSansMono-Bold.ttf') format('truetype');
+        font-weight: bold;
+    }
+
+    i {
+        font-family: 'NotoSans';
+        font-style: italic;
+    }
+
+    body {
+        font-family: 'NotoSans';
+    }
+
+    strong {
+        font-family: 'NotoSans';
+        font-weight: bold;
+    }
+
+    b {
+        font-family: 'NotoSans';
+        font-weight: bold;
+    }
+
+    h {
+        font-family: 'NotoSans';
+    }
+
+    code {
+        font-family: 'NotoSansMono';
+    }
+
+    .hljs-keyword, .hljs-built_in {
+        font-family: 'NotoSansMono';
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <h1>From Zero Systems Blog</h1>
+            <h3><i>In Development</i></h3>
+        </header>
+        <article class="main">
+            <ul>
+                
+                    <li>
+                        <a href="../posts/boxels-11-years-of-learning.html">boxels-11-years-of-learning</a>
+                        <ul>
+                            <li>2023-07-15</li>
+                        </ul>
+                    </li>
+                
+                    <li>
+                        <a href="../posts/post-slug.html">post-slug</a>
+                        <ul>
+                            <li>2023-06-13</li>
+                        </ul>
+                    </li>
+                
+            </ul>
+        </article>
+        <aside class="aside aside-1"></aside>
+        <aside class="aside aside-2"></aside>
+        <footer class="footer">
+            <style>
+    .rss-icon {
+        width: 24px;
+        height: 24px;
+        color: #000;
+    }
+</style>
+
+<a href="../static/rss.xml">
+    <svg class="rss-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+    </svg>
+</a>
+        </footer>
+    </div>
+
+    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+<script>
+    kofiWidgetOverlay.draw('pebaz', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support me',
+        'floating-chat.donateButton.background-color': '#00b9fe',
+        'floating-chat.donateButton.text-color': '#fff'
+    });
+</script>
+</body>
+</html>

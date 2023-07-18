@@ -1,14 +1,14 @@
-<script src="static/highlight/highlight.min.js"></script>
+<script src="../static/highlight/highlight.min.js"></script>
 <script>
     // Append CSS syntax highlighting theme element to head
     var highlightjs_theme = document.createElement("link");
     highlightjs_theme.rel = "stylesheet";
 
     if (document.documentElement.dataset.theme == 'dark') {
-        highlightjs_theme.href = "static/highlight/srcery.min.css";
+        highlightjs_theme.href = "../static/highlight/srcery.min.css";
     }
     else {
-        highlightjs_theme.href = "static/highlight/default.min.css";
+        highlightjs_theme.href = "../static/highlight/default.min.css";
     }
 
     document.head.appendChild(highlightjs_theme);
