@@ -16,3 +16,17 @@ I tried 2 different networking techniques to no avail: a
 public rendezvous server for NAT Punchthrough and using TCP and UDP together.
 
 Wire protocol vs message protocol.
+
+---
+
+* Python, Raylib, and a bunch of other libraries
+* From-scratch TCP socket networking
+* By-hand 3D audio
+* ChatGPT as a coding assitant (both more and less useful than people think)
+    Took me all of my 11 years of practice and an AI assistant to do this in 13
+    days.
+* Python's dynamic typing was really difficult when the project got larger.
+    I couldn't believe the sensation. It was as if as soon as the project got to
+    be slightly larger than I could hold in my brain, I literally felt something
+    fall out of my working memory and I had to go and find what it was and get
+    it back in there.
