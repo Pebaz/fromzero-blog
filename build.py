@@ -5,6 +5,7 @@
 import json, jinja2, markdown, datetime
 from pathlib import Path
 from markdown.extensions.fenced_code import FencedCodeExtension
+from md_mermaid import MermaidExtension
 from feedgen.feed import FeedGenerator
 
 
@@ -44,7 +45,10 @@ for post_dir in (blog_root / 'posts').iterdir():
     properties = json.load((post_dir / 'properties.json').open())
     post_body = markdown.markdown(
         (post_dir / 'post.md').read_text(),
-        extensions=[FencedCodeExtension()]
+        extensions=[
+            FencedCodeExtension(),
+            # MermaidExtension()
+        ]
     )
     post_html = post_j2.render(body=post_body, **properties)
     (Path('docs/posts') / post_dir.name).with_suffix('.html').write_text(post_html)
