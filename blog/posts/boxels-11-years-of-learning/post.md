@@ -100,13 +100,14 @@ Input was gathered using Raylib. Gamepad input was extremely easy to obtain and
 manage.
 
 The 3D boxels themselves were loaded from a mesh created in Blender containing
-6 coplanar quads, each with UV coordinates mapped to a spritesheet laid out with
-room for 6 textures along the X axis. The boxel model was loaded once but then
-each unique combination of boxel side textures was drawn to an image and
-uploaded to the GPU for use during rendering. In this way, boxels using the same
-texture could be batched by Raylib and there was ever only 1 mesh in play aside
-from the quads submitted by Raylib for billboard sprites, fonts, and debug
-geometry. When drawn to an image during runtime, they would look like this:
+6 quads made of 2 coplanar triangles, each with UV coordinates mapped to a
+spritesheet laid out with room for 6 textures along the X axis. The boxel model
+was loaded once but then each unique combination of boxel side textures was
+drawn to an image and uploaded to the GPU for use during rendering. In this way,
+boxels using the same texture could be batched by Raylib and there was ever only
+1 mesh in play aside from the quads submitted by Raylib for billboard sprites,
+fonts, and debug geometry. When drawn to an image during runtime, they would
+look like this:
 
 ![Boxel Texture](../static/img/boxel-texture.png)
 
