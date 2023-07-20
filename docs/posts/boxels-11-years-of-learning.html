@@ -237,7 +237,10 @@
 
                     <p>It's taken me a lot of personal development to get to the point where I could
 even finish something I'd call a "game". Boxels is not that. Other than walking
-around, there is nothing to iteract with in the gameworld.</p>
+around, there is nothing to iteract with in the gameworld. Instead, I would
+consider this project to be an extensible base upon which to build more
+functionality later. For instance, the barebones entity system can be extended
+to support picking up items or adding vegetation to the world.</p>
 <p>For the longest time I worked on "games" only to the point of seeing something
 on screen or achieving a particular technical accomplishment and I would table
 the project for later.</p>
@@ -249,6 +252,31 @@ Networking took me 3 days and I rewrote it 3 times.
 I tried 2 different networking techniques to no avail: a
 public rendezvous server for NAT Punchthrough and using TCP and UDP together.</p>
 <p>Wire protocol vs message protocol.</p>
+<hr />
+<p><abbr title="Transmission Control Protocol">TCP</abbr></p>
+<pre>
+    <div class="mermaid">
+            graph LR;
+                A --> B;
+                A --> C;
+                B --> D;
+                C --> D;
+    </div>
+</pre>
+
+<ul>
+<li>Python, Raylib, and a bunch of other libraries</li>
+<li>From-scratch TCP socket networking</li>
+<li>By-hand 3D audio</li>
+<li>ChatGPT as a coding assitant (both more and less useful than people think)
+    Took me all of my 11 years of practice and an AI assistant to do this in 13
+    days.</li>
+<li>Python's dynamic typing was really difficult when the project got larger.
+    I couldn't believe the sensation. It was as if as soon as the project got to
+    be slightly larger than I could hold in my brain, I literally felt something
+    fall out of my working memory and I had to go and find what it was and get
+    it back in there.</li>
+</ul>
 <hr />
 <p>Boxels refer to a nomenclature I have developed over the years:</p>
 <ul>
@@ -269,6 +297,7 @@ public rendezvous server for NAT Punchthrough and using TCP and UDP together.</p
 <p>The design of the game involved a client that handles player input, sound,
 resource loading, and graphics, and a server that would handle the gameworld
 simulation with physics, player -&gt; entity tracking, and map generation.</p>
+<p>TODO(pbz): Create mermaid diagrams for this stuff.</p>
 <p>Asynchrony was harnessed through the creation of a stoppable task type that took
 advantage of Python generators to yield at key stopping points in the thread
 handler function. Cleanup code could then examine which checkpoint was last
@@ -279,12 +308,14 @@ feature of the task class was a built in way to send and receive messages from
 outside and inside the task. This provided a very flexible base upon which to
 build complex raw socket handling code while utilizing Python's ability to get
 parallelism with IO tasks.</p>
+<p>TODO(pbz): Create mermaid diagrams for this stuff.</p>
 <p>Both the client and the server made use of a custom networking facility that
 used raw TCP sockets. To send structured data back and forth, an event/messaging
 model was created by using Pydantic models serialized to JSON and encoded with
 MessagePack which greatly reduced their size. Events were effectively type
 checked as constructing one with incorrect data types was impossible using
 Pydantic.</p>
+<p>TODO(pbz): Create mermaid diagrams for this stuff.</p>
 <p>Events also took advantage of the mixin class design pattern by inheriting from
 a quick update type that would demarcate that event as eligible for
 deduplication in situations where the network was unable to keep up with the
@@ -292,6 +323,7 @@ amount of those events being sent. This worked extremely well and made it so
 that only one player input or entity update event was ever sent over the wire.
 Since the events already used Pydantic, adding a new event type was as simple
 as inheriting one or two classes and adding annotated fields.</p>
+<p>TODO(pbz): Create mermaid diagrams for this stuff.</p>
 <p>The game object model was maintained by the server and mirrored on the client.
 Modifications to the model during runtime were communicated via one-shot or
 frame-by-frame events. The map was only update upon modification and the current
@@ -300,6 +332,7 @@ model was simple in that there were only ever 3 types, one for the player,
 entities, and boxels. More types would have eventually been needed to structure
 and store more data, however, as dictionaries formed the backbone of the client
 and server's game object storage.</p>
+<p>TODO(pbz): Create mermaid diagrams for this stuff.</p>
 <p>On the server, connections were tracked by address and handled in their own
 task.</p>
 <p>The client</p>
@@ -310,13 +343,14 @@ Data Model</p>
 <p>Input was gathered using Raylib. Gamepad input was extremely easy to obtain and
 manage.</p>
 <p>The 3D boxels themselves were loaded from a mesh created in Blender containing
-6 coplanar quads, each with UV coordinates mapped to a spritesheet laid out with
-room for 6 textures along the X axis. The boxel model was loaded once but then
-each unique combination of boxel side textures was drawn to an image and
-uploaded to the GPU for use during rendering. In this way, boxels using the same
-texture could be batched by Raylib and there was ever only 1 mesh in play aside
-from the quads submitted by Raylib for billboard sprites, fonts, and debug
-geometry. When drawn to an image during runtime, they would look like this:</p>
+6 quads made of 2 coplanar triangles, each with UV coordinates mapped to a
+spritesheet laid out with room for 6 textures along the X axis. The boxel model
+was loaded once but then each unique combination of boxel side textures was
+drawn to an image and uploaded to the GPU for use during rendering. In this way,
+boxels using the same texture could be batched by Raylib and there was ever only
+1 mesh in play aside from the quads submitted by Raylib for billboard sprites,
+fonts, and debug geometry. When drawn to an image during runtime, they would
+look like this:</p>
 <p><img alt="Boxel Texture" src="../static/img/boxel-texture.png" /></p>
 <p><img alt="Boxel Texture Annotated" src="../static/img/boxel-texture-annotated.png" /></p>
 <p>Specifying side textures to cache used these combinations:</p>
@@ -325,20 +359,6 @@ geometry. When drawn to an image during runtime, they would look like this:</p>
 <li>Top, rest of sides</li>
 <li>Top, bottom, rest of sides</li>
 <li>Top, bottom, left, right, front, back</li>
-</ul>
-<hr />
-<ul>
-<li>Python, Raylib, and a bunch of other libraries</li>
-<li>From-scratch TCP socket networking</li>
-<li>By-hand 3D audio</li>
-<li>ChatGPT as a coding assitant (both more and less useful than people think)
-    Took me all of my 11 years of practice and an AI assistant to do this in 13
-    days.</li>
-<li>Python's dynamic typing was really difficult when the project got larger.
-    I couldn't believe the sensation. It was as if as soon as the project got to
-    be slightly larger than I could hold in my brain, I literally felt something
-    fall out of my working memory and I had to go and find what it was and get
-    it back in there.</li>
 </ul>
                 </div>
                 <div class="body-footer">
@@ -386,6 +406,25 @@ geometry. When drawn to an image during runtime, they would look like this:</p>
         'floating-chat.donateButton.background-color': '#00b9fe',
         'floating-chat.donateButton.text-color': '#fff'
     });
+</script>
+
+    <script src="../static/js/mermaid.js"></script>
+<script>
+    function initializeMermaid()
+    {
+        mermaid.initialize({startOnLoad: true})
+    }
+
+    if (
+        document.readyState === "complete" ||
+        document.readyState === "interactive"
+    ) {
+        setTimeout(initializeMermaid, 1);
+    }
+    else
+    {
+        document.addEventListener("DOMContentLoaded", initializeMermaid);
+    }
 </script>
 </body>
 
