@@ -9,8 +9,8 @@ For the longest time I worked on "games" only to the point of seeing something
 on screen or achieving a particular technical accomplishment and I would table
 the project for later.
 
-I created boxels in 13 day's time working in the evenings and weekends for a
-total of approximately 30 hours of work.
+I created boxels in 15 day's time working in the evenings and weekends for a
+total of approximately 30 hours of work on 12 separate days.
 
 3D audio took me almost an entire day.
 Physics took me an entire day.
@@ -20,17 +20,51 @@ public rendezvous server for NAT Punchthrough and using TCP and UDP together.
 
 Wire protocol vs message protocol.
 
+I rapid prototyped the project using [Kenny's](https://kenney.nl/) free assets.
+This helped make the beginning of the project more enjoyable as there was
+something to render on screen from day one.
+
 ---
 
 <abbr title="Transmission Control Protocol">TCP</abbr>
 
 <pre>
     <div class="mermaid">
-            graph LR;
-                A --> B;
-                A --> C;
-                B --> D;
-                C --> D;
+        timeline
+            title Timeline of Project Boxels: Week 1
+            Day 1 [7/3/23]: Raylib hello world example up and running
+            Day 2 [7/4/23]: Textured boxel model
+                : Perspective camera
+                : Boxel <-> Entity collisions
+                : Walking around in world
+            Day 3 [7/5/23]: Billboard sprites
+                : Entity <-> Entity collisions
+            Day 4 [7/6/23]: Attempted Rendezvous Server for NAT punchthrough
+            Day 5 [7/7/23]: Attempted using TCP & UDP together
+                : Adopted TCP event transport
+                : Added message protocol
+                : Multiple players connected
+            Day 6 [7/8/23]: Created game object model
+                : Moving entities over network
+    </div>
+</pre>
+
+<pre>
+    <div class="mermaid">
+        timeline
+            title Timeline of Project Boxels: Week 2
+            Day 7 [7/9/23]: Players see each other
+            Day 8 [7/11/23]: Created stoppable asynchronous Task system
+            Day 9 [7/12/23]: 3D audio concept
+                : Gamepad input
+                : Rewrote networking to use task system
+            Day 10 [7/13/23]: Player name labels
+                : Clients receive map with 6-sided boxels
+                : 3D audio complete
+            Day 11 [7/14/23]: Networked physics with FCL
+            Day 12 [7/15/23]: Non-player entities
+                : Created test map with AI generated textures
+                : Generated final build using Nuitka
     </div>
 </pre>
 
@@ -48,6 +82,10 @@ Wire protocol vs message protocol.
 
 ---
 
+There is no cross-platform way to get the MTU in any language!
+
+---
+
 Boxels refer to a nomenclature I have developed over the years:
 
 * Pixels: containers for a specific color in a 2D image
@@ -57,12 +95,12 @@ Boxels refer to a nomenclature I have developed over the years:
 
 Libraries Used:
 
-* Raylib
-* Flexible Collision Library
-* Requests
+* Raylib (windowing, rendering, input, audio, timing)
+* Flexible Collision Library (collision detection & response)
 * Pydantic (marshalling events back and forth)
 * MessagePack (compressing events back and forth)
 * MeowHash Python (bindings to MeowHash written by me)
+* Nuitka (compiling the game to an executable)
 
 The design of the game involved a client that handles player input, sound,
 resource loading, and graphics, and a server that would handle the gameworld
