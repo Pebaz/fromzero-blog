@@ -157,7 +157,10 @@ something to render on screen from day one.
     Took me all of my 11 years of practice and an AI assistant to do this in 13
     days. People think that the usage of AI makes things effortless but in
     reality it took many prompts and 11 years of coding experience to make this
-    project.
+    project. The main advantage I saw to conversational AI was the sheer
+    reduction in the need for searching the web. Upon receiving an answer, I
+    could then drill down into it by asking follow up questions. This is truly
+    the next generation of research.
 - Dynamic typing combined with metaprogramming made for a powerful design for
     the event system. However, it was also challenging to debug the project as
     it grew.
