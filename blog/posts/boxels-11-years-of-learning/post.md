@@ -179,9 +179,10 @@ Python for years before being adopted elsewhere.
     networking infrastructure and everything in between. The thing is, there's
     no built-in way to get the MTU in any programming language I know of. You
     have to make an operating system call or invoke a Linux-only networking
-    command to get it. 🤦 I abandoned using TCP & UDP together since I didn't
-    want to just pick a packet size and roll with it only to get a substantial
-    test ready on another machine and experience crazy networking issues.
+    command to get it. 🤦 I abandoned using both TCP & UDP together since I
+    didn't want to just pick a packet size and roll with it only to get a
+    substantial test ready on another machine and experience crazy networking
+    issues.
 
 - NAT Punchthrough is not 100% reliable, especially not with VPNs in between:
     Only after I had created a rendezvous server as well as the client and
