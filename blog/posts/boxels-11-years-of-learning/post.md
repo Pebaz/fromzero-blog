@@ -24,20 +24,27 @@ I was ready for a change and decided that this would be my last "from-scratch"
 (as in, without a game engine) game I would do by myself. I set out to make a
 multiplayer experience with simple cuboid walls and billboard sprites.
 
+Boxels is the result of this effort. Since it was for my own personal closure,
+it is not released and not open source, so the public-facing deliverable is this
+post.
+
 ## The Design of Boxels
-- Defining Boxels: Pixels, Voxels, Bloxels, and Boxels
-- High-Level Game Design
 
 Boxels refer to a nomenclature I have developed over the years:
 
-* Pixels: containers for a specific color in a 2D image
-* Voxels: volumetric pixels
-* Bloxels: isometric 2.5D voxel sprites
+* Pixels: containers for a specific color in a 2D image (Mario)
+* Voxels: volumetric pixels (Minecraft)
+* Bloxels: isometric 2.5D voxel sprites ()
 * Boxels: textured cubes large enough for one game entity to stand in
 
 The design of the game involved a client that handles player input, sound,
 resource loading, and graphics, and a server that would handle the gameworld
 simulation with physics, player -> entity tracking, and map generation.
+
+The overall idea was that players could walk around in a cuboid world, bump into
+walls, each other, and perhaps pick up items or anything else I could come up
+with. I ended up just making networked collision with boxels, entities, and
+players, but the groundwork has been laid to add more later.
 
 ## Development Timeline
 
@@ -364,14 +371,87 @@ A small benefit of this was that if a boxel had the same texture ID for all of
 it's sides, only one texture ID would need to be sent over the network when the
 map changed.
 
+## Personal Notes
+
+These are not strictly related to the technical or non-technical design of
+Boxels but I wanted to go over my thought process for projects like this.
+
+I'm sure that there are exact terms and definitions that describe the following
+concepts but I wanted to list them here as I have come to understand them. I
+have observed over time that they are some of my core strengths. Hopefully
+someone will resonate with them as I found it extremely validating to notice and
+name these behaviors not only to learn more about myself but harness whatever
+value they possess more deliberately.
+
+**Stochastic Ideation**: I do this constantly with everything from songs I've
+heard to code I've written that day to projects I worked on a year ago.
+Basically, stochastic ideation is when you take an existing something, such as a
+song, and progressively add entropy to the elements you understand until
+entirely new forms of that thing are created. A simple example would be the
+[Rockelbel's Canon](https://www.youtube.com/watch?v=LV5_xj_yuhs), a rendition of
+Pachelbel's Canon in D by the Piano Guys. They take an existing framework (the
+original Canon in D song) and stray from it at key pleasing points so much so
+that it's an entirely different song even though it still resembles the original
+song.
+
+Imagine doing this with code, art, 3D modeling, wordplay, or anything else that
+requires a bit of creativity. This is one of my strongest skills.
+
+**Latent Design**: I do this nearly every day throughout the day. At any given
+time, I may have 20 to 30 projects I'm designing in my head intermittently over
+the course of years. I may ideate on 1 one day and 10 the next. One thing is for
+certain, however. The longer I think about a project (even without doing any
+actual work towards finishing it), the project becomes part of me and I "feel"
+it stronger and stronger the longer this goes on. For instance, the largest
+project I have ever latently designed lasted for about 10 years. Whenever I
+needed to explain it to someone, I would almost always make up details on the
+spot that would become official parts of the design because I wasn't thinking
+about the design, I was feeling the design out. For this same reason, I have
+made a fairly decent tabletop RPG game master because it doesn't phase me that
+most of the details are not filled in. I know that I'll be able to take what I
+currently know of the game world and fill it in live the same why I think about
+it day by day in the back of my head.
+
+The greatest advantage of this is that it can survive short periods of time like
+weekends where short term memory is erased. I believe this is akin to deriving a
+mathematical formula that you learned in the past but you can't quite outright
+remember. Lastly, latent design allows me to maximally absorb state of the art
+ideas as I learn about them. From there, I can rethink the design much the same
+as I had been prior to learning the new facts.
+
+
 ## Conclusion
-- Personal Reflections
-- Future Plans for Boxels
+
+I had a lot of fun making Boxels. It was hard work but I didn't push myself too
+far and didn't burn out by the end so overall it was a satisfying experience. I
+don't know if I'll end up adding onto Boxels but I wanted to make sure that it
+was possible to do so. If I end up making an actual playable game I'll be sure
+to upload it to Itch.io or Steam.
+
+If I had to leave a <abbr title="Too Long, Didn't Read">TLDR</abbr>, here's what
+I'd say:
 
 > **Key Takeaways**
-> * One
-> * Two
-
+> * Good code leading to good technology can be written in any language, but it
+    might require breaking away from established norms in order to get there.
+    Specifically, I didn't do test driven development and inheritance
+    hierarchies are shallow. There are functions defined in global scope and I
+    didn't focus too much on code reusability. Hopefully in another post I'll go
+    over my thoughts on my exact programming philosophy but for now I'll reduce
+    it to: don't overuse object-oriented or functional programming.
+>
+> * Don't underestimate the effort required for making networked multiplayer
+    games. The client and server are not two separate projects, the effort
+    involved is more than 2 times a single player game.
+>
+> * Don't make games in Python. As much as it pains me to say, I truly should
+    have switched to C++ 6-8 years ago. If Rust had been around, I would have
+    used that but it wasn't mainstream back then. I thought I could use enough
+    high performance C extensions to make up for it but the truth is that Python
+    is just too slow. Just for comparison for the curious, run
+    [Ripgrep](https://github.com/BurntSushi/ripgrep) on your entire file system
+    and then ask yourself if you knew computers were that fast. Python isn't.
+    Perhaps [Mojo](https://www.modular.com/mojo) will change that in time.
 
 
 
