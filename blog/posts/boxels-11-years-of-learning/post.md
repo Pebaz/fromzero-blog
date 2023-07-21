@@ -1,3 +1,5 @@
+## Introduction
+
 ![Boxel Screenshot](../static/img/boxels-screenshot-3.png)
 
 It's taken me a lot of personal development to get to the point where I could
@@ -20,24 +22,27 @@ about games in the 11 years I've been programming.
 
 I was ready for a change and decided that this would be my last "from-scratch"
 (as in, without a game engine) game I would do by myself. I set out to make a
-multiplayer experience with simple cuboid walls and billboard sprites. I created
-boxels in 15 day's time working in the evenings and weekends for a total of approximately 30 hours of work on 12 separate days.
+multiplayer experience with simple cuboid walls and billboard sprites.
 
-3D audio took me almost an entire day.
-Physics took me an entire day.
-Networking took me 3 days and I rewrote it 3 times.
-I tried 2 different networking techniques to no avail: a
-public rendezvous server for NAT Punchthrough and using TCP and UDP together.
+## The Design of Boxels
+- Defining Boxels: Pixels, Voxels, Bloxels, and Boxels
+- High-Level Game Design
 
-Wire protocol vs message protocol.
+Boxels refer to a nomenclature I have developed over the years:
 
-I rapid prototyped the project using [Kenny's](https://kenney.nl/) free assets.
-This helped make the beginning of the project more enjoyable as there was
-something to render on screen from day one.
+* Pixels: containers for a specific color in a 2D image
+* Voxels: volumetric pixels
+* Bloxels: isometric 2.5D voxel sprites
+* Boxels: textured cubes large enough for one game entity to stand in
 
----
+The design of the game involved a client that handles player input, sound,
+resource loading, and graphics, and a server that would handle the gameworld
+simulation with physics, player -> entity tracking, and map generation.
 
-<abbr title="Transmission Control Protocol">TCP</abbr>
+## Development Timeline
+
+I created boxels in 15 day's time working in the evenings and weekends for a
+total of approximately 30 hours of work on 12 separate days.
 
 <pre>
     <div class="mermaid">
@@ -107,47 +112,71 @@ something to render on screen from day one.
     </div>
 </pre>
 
-* Python, Raylib, and a bunch of other libraries
-* From-scratch TCP socket networking
-* By-hand 3D audio
-* ChatGPT as a coding assitant (both more and less useful than people think)
-    Took me all of my 11 years of practice and an AI assistant to do this in 13
-    days.
-* Python's dynamic typing was really difficult when the project got larger.
-    I couldn't believe the sensation. It was as if as soon as the project got to
+3D audio took me almost an entire day.
+Physics took me an entire day.
+Networking took me 3 days and I rewrote it 3 times.
+I tried 2 different networking techniques to no avail: a
+public rendezvous server for NAT Punchthrough and using TCP and UDP together.
+
+Wire protocol vs message protocol.
+
+I rapid prototyped the project using [Kenny's](https://kenney.nl/) free assets.
+This helped make the beginning of the project more enjoyable as there was
+something to render on screen from day one.
+
+## Technical Components
+- Tools and Libraries Used
+- Python, Raylib, and more
+- From-scratch TCP socket networking
+- By-hand 3D audio
+- Use of ChatGPT as a coding assistant
+
+- The entire game is **1578** lines of Python code (2158 if you include comments
+    and whitespace). This is an astonishing number because this is a 3D
+    multiplayer experience, not a command line application. People really seem
+    to underestimate Python. Sometimes for good reason, other times it just
+    baffles me how hard some tasks are in other languages when I've seen good
+    designs that have existed in Python for years before being adopted
+    elsewhere.
+
+## Challenges Encountered
+- Python's dynamic typing challenge
+- Cross-platform limitations
+
+- There is no cross-platform way to get the MTU in any language!
+- NAT Punchthrough is not 100% reliable, especially not with VPNs in between.
+- Multiplayer networking is an entirely separate project at least the size of
+    the game client.
+- Wire protocol is different than message protocol
+- Python's dynamic typing was really difficult when the project got larger. I
+    couldn't believe the sensation. It was as if as soon as the project got to
     be slightly larger than I could hold in my brain, I literally felt something
     fall out of my working memory and I had to go and find what it was and get
     it back in there.
+- ChatGPT as a coding assitant (both more and less useful than people think)
+    Took me all of my 11 years of practice and an AI assistant to do this in 13
+    days. People think that the usage of AI makes things effortless but in
+    reality it took many prompts and 11 years of coding experience to make this
+    project.
+- Dynamic typing combined with metaprogramming made for a powerful design for
+    the event system. However, it was also challenging to debug the project as
+    it grew.
 
----
+## Networking
+- Network Design: Messaging Model
+- Networking Techniques: TCP and UDP, NAT Punchthrough
+- Wire Protocol vs Message Protocol
 
-There is no cross-platform way to get the MTU in any language!
+On the server, connections were tracked by address and handled in their own
+task.
 
----
+## Game Building Blocks
+- Entity System and Future Extensions
+- Project Prototyping with Free Assets
 
-![Boxel Screenshot](../static/img/boxels-screenshot-2.png)
-
-Boxels refer to a nomenclature I have developed over the years:
-
-* Pixels: containers for a specific color in a 2D image
-* Voxels: volumetric data
-* Bloxels: isometric 2.5D voxel sprites
-* Boxels: textured cubes large enough for one game entity to stand in
-
-Libraries Used:
-
-* Raylib (windowing, rendering, input, audio, timing)
-* Flexible Collision Library (collision detection & response)
-* Pydantic (marshalling events back and forth)
-* MessagePack (compressing events back and forth)
-* MeowHash Python (bindings to MeowHash written by me)
-* Nuitka (compiling the game to an executable)
-
-The design of the game involved a client that handles player input, sound,
-resource loading, and graphics, and a server that would handle the gameworld
-simulation with physics, player -> entity tracking, and map generation.
-
-TODO(pbz): Create mermaid diagrams for this stuff.
+## Asynchronous Programming
+- Creation and Utility of Stoppable Task System
+- Python Threading
 
 Asynchrony was harnessed through the creation of a stoppable task type that took
 advantage of Python generators to yield at key stopping points in the thread
@@ -162,14 +191,22 @@ parallelism with IO tasks.
 
 TODO(pbz): Create mermaid diagrams for this stuff.
 
+## Client-Server Model
+- Client Responsibilities
+- Server Responsibilities
+
+## Event/Messaging System
+- Use of Pydantic and MessagePack
+- Quick Update Type and Deduplication
+
+TODO(pbz): Create mermaid diagrams for this stuff.
+
 Both the client and the server made use of a custom networking facility that
 used raw TCP sockets. To send structured data back and forth, an event/messaging
 model was created by using Pydantic models serialized to JSON and encoded with
 MessagePack which greatly reduced their size. Events were effectively type
 checked as constructing one with incorrect data types was impossible using
 Pydantic.
-
-![Boxel Screenshot](../static/img/boxels-screenshot-1.png)
 
 TODO(pbz): Create mermaid diagrams for this stuff.
 
@@ -181,7 +218,9 @@ that only one player input or entity update event was ever sent over the wire.
 Since the events already used Pydantic, adding a new event type was as simple
 as inheriting one or two classes and adding annotated fields.
 
-TODO(pbz): Create mermaid diagrams for this stuff.
+## GameObject Model
+- Server and Client Game Object Model
+- Object Model Modification and Event Communication
 
 The game object model was maintained by the server and mirrored on the client.
 Modifications to the model during runtime were communicated via one-shot or
@@ -192,22 +231,22 @@ entities, and boxels. More types would have eventually been needed to structure
 and store more data, however, as dictionaries formed the backbone of the client
 and server's game object storage.
 
-TODO(pbz): Create mermaid diagrams for this stuff.
-
-On the server, connections were tracked by address and handled in their own
-task.
-
-The client
-
-The server
-
-Object Model
-Data Model
-
-Graphics were rendered using Raylib
+## Graphics and Input
+- Rendering with Raylib
+- Gamepad Input Management
 
 Input was gathered using Raylib. Gamepad input was extremely easy to obtain and
-manage.
+manage. Graphics were rendered using Raylib.
+
+## 3D Boxel Design
+- Designing 3D Boxels with Blender
+- Texture Management and Caching
+
+Boxels are designed to support a different texture on each of the 6 sides and be
+about the size of one entity in the game. This makes it so that levels can be
+created quickly while still feeling big enough. I found that with voxels, each
+"volumetric pixel" is too granular and basically requires outdoor areas to make
+use of procedural generation.
 
 The 3D boxels themselves were loaded from a mesh created in Blender containing
 6 quads made of 2 coplanar triangles, each with UV coordinates mapped to a
@@ -229,3 +268,36 @@ Specifying side textures to cache used these combinations:
 * Top, rest of sides
 * Top, bottom, rest of sides
 * Top, bottom, left, right, front, back
+
+
+## Conclusion
+- Personal Reflections
+- Future Plans for Boxels
+
+> **Key Takeaways**
+> * One
+> * Two
+
+## Appendix
+- Libraries Used
+- Project Images and Diagrams
+
+**Libraries Used:**
+
+* Raylib (windowing, rendering, input, audio, timing)
+* Flexible Collision Library (collision detection & response)
+* Pydantic (marshalling events back and forth)
+* MessagePack (compressing events back and forth)
+* MeowHash Python (bindings to MeowHash written by me)
+* Nuitka (compiling the game to an executable)
+
+
+---
+
+<abbr title="Transmission Control Protocol">TCP</abbr>
+
+---
+
+![Boxel Screenshot](../static/img/boxels-screenshot-2.png)
+
+![Boxel Screenshot](../static/img/boxels-screenshot-1.png)
