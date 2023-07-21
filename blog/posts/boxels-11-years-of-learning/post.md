@@ -1,3 +1,5 @@
+![Boxel Screenshot](../static/img/boxels-screenshot-3.png)
+
 It's taken me a lot of personal development to get to the point where I could
 even finish something I'd call a "game". Boxels is not that. Other than walking
 around, there is nothing to iteract with in the gameworld. Instead, I would
@@ -7,10 +9,19 @@ to support picking up items or adding vegetation to the world.
 
 For the longest time I worked on "games" only to the point of seeing something
 on screen or achieving a particular technical accomplishment and I would table
-the project for later.
+the project for later. Over time, there were so many projects like this that it
+became a personal mission to finish as many projects as possible. I went back
+and finished several in-progress projects and went on to start and then finish
+many more. I became hungry for "checkboxes" as I used to think of them. As the
+years went by I noticed that very few of my finished projects were games. After
+all the time I spent learning about games and game technology, this did not feel
+great. I felt I needed to have something to show for the knowledge I accumulated
+about games in the 11 years I've been programming.
 
-I created boxels in 15 day's time working in the evenings and weekends for a
-total of approximately 30 hours of work on 12 separate days.
+I was ready for a change and decided that this would be my last "from-scratch"
+(as in, without a game engine) game I would do by myself. I set out to make a
+multiplayer experience with simple cuboid walls and billboard sprites. I created
+boxels in 15 day's time working in the evenings and weekends for a total of approximately 30 hours of work on 12 separate days.
 
 3D audio took me almost an entire day.
 Physics took me an entire day.
@@ -30,6 +41,20 @@ something to render on screen from day one.
 
 <pre>
     <div class="mermaid">
+        %%{
+            init: {
+                'logLevel': 'debug',
+                'theme': 'default',
+                'themeVariables': {
+                    'cScale0': '#A0522D',
+                    'cScale1': '#8A3324',
+                    'cScale2': '#6B8E23',
+                    'cScale3': '#8A9A5B',
+                    'cScale4': '#9EA587',
+                    'cScale5': '#E97451'
+                }
+            }
+        }%%
         timeline
             title Timeline of Project Boxels: Week 1
             Day 1 [7/3/23]: Raylib hello world example up and running
@@ -51,6 +76,20 @@ something to render on screen from day one.
 
 <pre>
     <div class="mermaid">
+        %%{
+            init: {
+                'logLevel': 'debug',
+                'theme': 'default',
+                'themeVariables': {
+                    'cScale0': '#A0522D',
+                    'cScale1': '#8A3324',
+                    'cScale2': '#6B8E23',
+                    'cScale3': '#8A9A5B',
+                    'cScale4': '#9EA587',
+                    'cScale5': '#E97451'
+                }
+            }
+        }%%
         timeline
             title Timeline of Project Boxels: Week 2
             Day 7 [7/9/23]: Players see each other
@@ -85,6 +124,8 @@ something to render on screen from day one.
 There is no cross-platform way to get the MTU in any language!
 
 ---
+
+![Boxel Screenshot](../static/img/boxels-screenshot-2.png)
 
 Boxels refer to a nomenclature I have developed over the years:
 
@@ -127,6 +168,8 @@ model was created by using Pydantic models serialized to JSON and encoded with
 MessagePack which greatly reduced their size. Events were effectively type
 checked as constructing one with incorrect data types was impossible using
 Pydantic.
+
+![Boxel Screenshot](../static/img/boxels-screenshot-1.png)
 
 TODO(pbz): Create mermaid diagrams for this stuff.
 

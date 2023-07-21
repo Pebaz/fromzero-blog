@@ -235,7 +235,8 @@
                     <h3>My Game Programming Journey</h3>
                     <h4><i>2023-07-15</i></h3>
 
-                    <p>It's taken me a lot of personal development to get to the point where I could
+                    <p><img alt="Boxel Screenshot" src="../static/img/boxels-screenshot-3.png" /></p>
+<p>It's taken me a lot of personal development to get to the point where I could
 even finish something I'd call a "game". Boxels is not that. Other than walking
 around, there is nothing to iteract with in the gameworld. Instead, I would
 consider this project to be an extensible base upon which to build more
@@ -259,6 +260,20 @@ something to render on screen from day one.</p>
 <p><abbr title="Transmission Control Protocol">TCP</abbr></p>
 <pre>
     <div class="mermaid">
+        %%{
+            init: {
+                'logLevel': 'debug',
+                'theme': 'default',
+                'themeVariables': {
+                    'cScale0': '#A0522D',
+                    'cScale1': '#8A3324',
+                    'cScale2': '#6B8E23',
+                    'cScale3': '#8A9A5B',
+                    'cScale4': '#9EA587',
+                    'cScale5': '#E97451'
+                }
+            }
+        }%%
         timeline
             title Timeline of Project Boxels: Week 1
             Day 1 [7/3/23]: Raylib hello world example up and running
@@ -280,6 +295,20 @@ something to render on screen from day one.</p>
 
 <pre>
     <div class="mermaid">
+        %%{
+            init: {
+                'logLevel': 'debug',
+                'theme': 'default',
+                'themeVariables': {
+                    'cScale0': '#A0522D',
+                    'cScale1': '#8A3324',
+                    'cScale2': '#6B8E23',
+                    'cScale3': '#8A9A5B',
+                    'cScale4': '#9EA587',
+                    'cScale5': '#E97451'
+                }
+            }
+        }%%
         timeline
             title Timeline of Project Boxels: Week 2
             Day 7 [7/9/23]: Players see each other
@@ -313,6 +342,7 @@ something to render on screen from day one.</p>
 <hr />
 <p>There is no cross-platform way to get the MTU in any language!</p>
 <hr />
+<p><img alt="Boxel Screenshot" src="../static/img/boxels-screenshot-2.png" /></p>
 <p>Boxels refer to a nomenclature I have developed over the years:</p>
 <ul>
 <li>Pixels: containers for a specific color in a 2D image</li>
@@ -350,6 +380,7 @@ model was created by using Pydantic models serialized to JSON and encoded with
 MessagePack which greatly reduced their size. Events were effectively type
 checked as constructing one with incorrect data types was impossible using
 Pydantic.</p>
+<p><img alt="Boxel Screenshot" src="../static/img/boxels-screenshot-1.png" /></p>
 <p>TODO(pbz): Create mermaid diagrams for this stuff.</p>
 <p>Events also took advantage of the mixin class design pattern by inheriting from
 a quick update type that would demarcate that event as eligible for
