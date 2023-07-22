@@ -119,24 +119,17 @@ total of approximately 30 hours of work on 12 separate days.
     </div>
 </pre>
 
-3D audio took me almost an entire day.
-Physics took me an entire day.
-Networking took me 3 days and I rewrote it 3 times.
-I tried 2 different networking techniques to no avail: a
-public rendezvous server for NAT Punchthrough and using TCP and UDP together.
-
-Wire protocol vs message protocol.
+3D audio took me almost an entire day. Physics took me an entire day. Networking
+took me 3 days and I rewrote it 3 times. I got distracted and tried 2 different
+networking techniques that ended up failing: a public rendezvous server for NAT
+Punchthrough and using TCP and UDP at the same time. This took up more time but
+I'm glad I crossed them off my todo list of things to experiment with.
 
 I rapid prototyped the project using [Kenny's](https://kenney.nl/) free assets.
 This helped make the beginning of the project more enjoyable as there was
 something to render on screen from day one.
 
 ## Technical Components
-- Tools and Libraries Used
-- Python, Raylib, and more
-- From-scratch TCP socket networking
-- By-hand 3D audio
-- Use of ChatGPT as a coding assistant
 
 **Libraries Used:**
 
@@ -171,6 +164,9 @@ experience, not a command line application. People really seem to underestimate
 Python. Sometimes for good reason, other times it just baffles me how hard some
 tasks are in other languages when I've seen good designs that have existed in
 Python for years before being adopted elsewhere.
+
+**A Word On Conversational AI**
+- Use of ChatGPT as a coding assistant
 
 ## Challenges Encountered
 
@@ -262,6 +258,14 @@ Python for years before being adopted elsewhere.
 - Network Design: Messaging Model
 - Networking Techniques: TCP and UDP, NAT Punchthrough
 - Wire Protocol vs Message Protocol
+
+Communication between clients and the server was implemented by using raw TCP
+sockets. I wanted to create a networking solution by hand because I learned this
+a long time ago and have rarely gotten a chance to use it for something real. It
+ended up being harder than I remember, mostly because I had forgotten things
+like: "are TCP connections
+<abbr title="Simultaneous bidirectional communication">full duplex</abbr>?" 🤔
+(Yes they are).
 
 On the server, connections were tracked by address and handled in their own
 task.
