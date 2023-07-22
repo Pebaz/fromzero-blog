@@ -8,7 +8,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Jul 2023 16:50:21 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Jul 2023 17:20:41 +0000</lastBuildDate>
     <item>
       <title>Foo Bar Baz</title>
       <link>https://blog.fromzero.systems</link>
@@ -17,7 +17,7 @@
     <item>
       <title>Boxels: 11 Years Of Learning</title>
       <link>https://blog.fromzero.systems</link>
-      <pubDate>Fri, 14 Jul 2023 17:00:00 +0000</pubDate>
+      <pubDate>Fri, 21 Jul 2023 17:00:00 +0000</pubDate>
     </item>
   </channel>
 </rss>

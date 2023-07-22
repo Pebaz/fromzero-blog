@@ -286,6 +286,16 @@ last checkpoint encountered before deallocating resources.
 
 <!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
 
+
+
+
+
+
+
+
+
+
+
 **Graphics and Input**
 
 - Rendering with Raylib
@@ -293,6 +303,16 @@ last checkpoint encountered before deallocating resources.
 
 Input was gathered using Raylib. Gamepad input was extremely easy to obtain and
 manage. Graphics were rendered using Raylib.
+
+
+
+
+
+
+
+
+
+
 
 **3D Boxel Design**
 
@@ -370,6 +390,22 @@ mechanism.
 
 ## Challenges Encountered
 
+- Multiplayer networking is an entirely separate project at least the size of
+    the game client. Every networking project I do, I tell myself this at the
+    end. Every time I start a new networking project, I forget that ever
+    happened. *Networking is difficult and will take at least half of your
+    time.* This includes considerations about simulating the gameworld as well
+    as what the event system should look like. Don't underestimate how long it
+    will take. It's not a 1:1. A single player game is complexity 1 and a
+    networked multiplayer game is complexity 3 at least.
+
+- Wire protocol is different than message protocol: I don't know why I never
+    thought about this, but sending messages over the network and deciding how
+    those messages should be sent are two different things. I merged them in my
+    head and had to rethink networking because of it. The wire protocol is how
+    TCP or UDP is used to send data back and forth. The contents of that data is
+    the messaging protocol.
+
 - There is no cross-platform way to get the MTU in any language: originally, I
     was planning on using 2 sockets: TCP for reliable messaging and UDP for
     quick frame-by-frame updates. It didn't matter if packets were lost for UDP
@@ -419,44 +455,15 @@ mechanism.
     of how unreliable it would be if a player had a VPN or if anything else got
     in the way.
 
-- Multiplayer networking is an entirely separate project at least the size of
-    the game client. Every networking project I do, I tell myself this at the
-    end. Every time I start a new networking project, I forget that ever
-    happened. *Networking is difficult and will take at least half of your
-    time.* This includes considerations about simulating the gameworld as well
-    as what the event system should look like. Don't underestimate how long it
-    will take. It's not a 1:1. A single player game is complexity 1 and a
-    networked multiplayer game is complexity 3 at least.
-
-- Wire protocol is different than message protocol: I don't know why I never
-    thought about this, but sending messages over the network and deciding how
-    those messages should be sent are two different things. I merged them in my
-    head and had to rethink networking because of it. The wire protocol is how
-    TCP or UDP is used to send data back and forth. The contents of that data is
-    the messaging protocol.
-
 - Python's dynamic typing was really difficult when the project got larger. I
     couldn't believe the sensation. It was as if as soon as the project got to
     be slightly larger than I could hold in my brain, I literally felt something
     fall out of my working memory and I had to go and find what it was and get
     it back in there.
 
-- ChatGPT as a coding assitant (both more and less useful than people think)
-    Took me all of my 11 years of practice and an AI assistant to do this in 13
-    days. People think that the usage of AI makes things effortless but in
-    reality it took many prompts and 11 years of coding experience to make this
-    project. The main advantage I saw to conversational AI was the sheer
-    reduction in the need for searching the web. Upon receiving an answer, I
-    could then drill down into it by asking follow up questions. This is truly
-    the next generation of research.
-
 - Dynamic typing combined with metaprogramming made for a powerful design for
     the event system. However, it was also challenging to debug the project as
     it grew.
-
-**A Word On Conversational AI**
-
-- Use of ChatGPT as a coding assistant
 
 ![Boxel Screenshot](../static/img/boxels/boxels-screenshot-2.png)
 
@@ -508,6 +515,46 @@ remember. Lastly, latent design allows me to maximally absorb state of the art
 ideas as I learn about them. From there, I can rethink the design much the same
 as I had been prior to learning the new facts.
 
+**A Word On Conversational AI**
+
+ChatGPT as a coding assitant (both more and less useful than people think)
+ChatGPT as a coding assistant was both **more** and **less** useful than people
+seem to think. It took me all of my 11 years of practice and an AI assistant to
+do this in 13 days. People think that the usage of AI makes things effortless
+but in reality it took many prompts and 11 years of coding experience to make
+this project. The main advantage I saw to conversational AI was the sheer
+reduction in the need for searching the web. Upon receiving an answer, I could
+then drill down into it by asking follow up questions. This is truly the next
+generation of research.
+
+Overall, I was extremely happy with the results I received from conversational
+AI. Here are the ones I used during development:
+
+* [ChatGPT](https://chat.openai.com/) (OpenAI): Consistently has the best
+    results for coding questions and any other type of question. Keeps track of
+    historical conversation elements the best.
+* [Bard](https://bard.google.com) (Google): The ability to copy and paste images
+    and then ask about them was insanely useful.
+* [Claude](https://anthropic.ai/) (Anthropic): Very smooth to use. I would say
+    that Claude is the closest to rivaling ChatGPT.
+
+In the past, coding was done by hand using only a compiler. Next,
+<abbr title="Integrated Development Environment">IDEs</abbr> were used to make
+editing code closer to the compiler's understanding. After that,
+<abbr title="Language Server Protocols">LSPs</abbr> came along which outsourced
+the job of querying the compiler for code info to a separate process rather than
+being "integrated" into the editor. This made codebases queryable like a
+database. Finally, we come to AI models like GitHub Copilot where ChatGPT-like
+assistance is integrated into the editor itself to grant it more capabilities
+than code generation alone. This is the future of coding.
+
+Although I did not make use of GitHub Copilot on this project, I'm aware that I
+my future employability will likely require expertise in AI tooling. For this
+project, however, I wanted to work how I learned to over the past 11 years.
+Seriously though, my official advice in 2023 would be to take advantage of the
+accessability of these extremely powerful AI tools while they remain available
+to the public.
+
 ![Boxel Screenshot](../static/img/boxels/boxels-screenshot-1.png)
 
 ## Conclusion
@@ -522,6 +569,7 @@ If I had to leave a <abbr title="Too Long, Didn't Read">TLDR</abbr>, here's what
 I'd say:
 
 > **Key Takeaways**
+>
 > * Good code leading to good technology can be written in any language, but it
     might require breaking away from established norms in order to get there.
     Specifically, I didn't do test driven development and inheritance

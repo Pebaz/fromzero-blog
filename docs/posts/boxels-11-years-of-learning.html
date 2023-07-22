@@ -56,11 +56,13 @@
         </header>
         <article class="main">
             <div class="body-container">
-                <div class="body-header">Header</div>
+                <div class="body-header">
+                    <a href="../pages/index.html">From Zero Systems</a>
+                </div>
                 <div class="body-content">
                     <h1>Boxels: 11 Years Of Learning</h1>
                     <h3>My Game Programming Journey</h3>
-                    <h4><i>2023-07-15</i></h3>
+                    <h4><i>2023-07-22</i></h3>
 
                     <h2>Introduction</h2>
 <p><img alt="Boxel Screenshot" src="../static/img/boxels/boxels-screenshot-3.png" /></p>
@@ -395,6 +397,24 @@ mechanism.</p>
 <h2>Challenges Encountered</h2>
 <ul>
 <li>
+<p>Multiplayer networking is an entirely separate project at least the size of
+    the game client. Every networking project I do, I tell myself this at the
+    end. Every time I start a new networking project, I forget that ever
+    happened. <em>Networking is difficult and will take at least half of your
+    time.</em> This includes considerations about simulating the gameworld as well
+    as what the event system should look like. Don't underestimate how long it
+    will take. It's not a 1:1. A single player game is complexity 1 and a
+    networked multiplayer game is complexity 3 at least.</p>
+</li>
+<li>
+<p>Wire protocol is different than message protocol: I don't know why I never
+    thought about this, but sending messages over the network and deciding how
+    those messages should be sent are two different things. I merged them in my
+    head and had to rethink networking because of it. The wire protocol is how
+    TCP or UDP is used to send data back and forth. The contents of that data is
+    the messaging protocol.</p>
+</li>
+<li>
 <p>There is no cross-platform way to get the MTU in any language: originally, I
     was planning on using 2 sockets: TCP for reliable messaging and UDP for
     quick frame-by-frame updates. It didn't matter if packets were lost for UDP
@@ -442,24 +462,6 @@ of how unreliable it would be if a player had a VPN or if anything else got
 in the way.</p>
 </li>
 <li>
-<p>Multiplayer networking is an entirely separate project at least the size of
-    the game client. Every networking project I do, I tell myself this at the
-    end. Every time I start a new networking project, I forget that ever
-    happened. <em>Networking is difficult and will take at least half of your
-    time.</em> This includes considerations about simulating the gameworld as well
-    as what the event system should look like. Don't underestimate how long it
-    will take. It's not a 1:1. A single player game is complexity 1 and a
-    networked multiplayer game is complexity 3 at least.</p>
-</li>
-<li>
-<p>Wire protocol is different than message protocol: I don't know why I never
-    thought about this, but sending messages over the network and deciding how
-    those messages should be sent are two different things. I merged them in my
-    head and had to rethink networking because of it. The wire protocol is how
-    TCP or UDP is used to send data back and forth. The contents of that data is
-    the messaging protocol.</p>
-</li>
-<li>
 <p>Python's dynamic typing was really difficult when the project got larger. I
     couldn't believe the sensation. It was as if as soon as the project got to
     be slightly larger than I could hold in my brain, I literally felt something
@@ -467,24 +469,10 @@ in the way.</p>
     it back in there.</p>
 </li>
 <li>
-<p>ChatGPT as a coding assitant (both more and less useful than people think)
-    Took me all of my 11 years of practice and an AI assistant to do this in 13
-    days. People think that the usage of AI makes things effortless but in
-    reality it took many prompts and 11 years of coding experience to make this
-    project. The main advantage I saw to conversational AI was the sheer
-    reduction in the need for searching the web. Upon receiving an answer, I
-    could then drill down into it by asking follow up questions. This is truly
-    the next generation of research.</p>
-</li>
-<li>
 <p>Dynamic typing combined with metaprogramming made for a powerful design for
     the event system. However, it was also challenging to debug the project as
     it grew.</p>
 </li>
-</ul>
-<p><strong>A Word On Conversational AI</strong></p>
-<ul>
-<li>Use of ChatGPT as a coding assistant</li>
 </ul>
 <p><img alt="Boxel Screenshot" src="../static/img/boxels/boxels-screenshot-2.png" /></p>
 <h2>Personal Notes</h2>
@@ -528,6 +516,42 @@ mathematical formula that you learned in the past but you can't quite outright
 remember. Lastly, latent design allows me to maximally absorb state of the art
 ideas as I learn about them. From there, I can rethink the design much the same
 as I had been prior to learning the new facts.</p>
+<p><strong>A Word On Conversational AI</strong></p>
+<p>ChatGPT as a coding assitant (both more and less useful than people think)
+ChatGPT as a coding assistant was both <strong>more</strong> and <strong>less</strong> useful than people
+seem to think. It took me all of my 11 years of practice and an AI assistant to
+do this in 13 days. People think that the usage of AI makes things effortless
+but in reality it took many prompts and 11 years of coding experience to make
+this project. The main advantage I saw to conversational AI was the sheer
+reduction in the need for searching the web. Upon receiving an answer, I could
+then drill down into it by asking follow up questions. This is truly the next
+generation of research.</p>
+<p>Overall, I was extremely happy with the results I received from conversational
+AI. Here are the ones I used during development:</p>
+<ul>
+<li><a href="https://chat.openai.com/">ChatGPT</a> (OpenAI): Consistently has the best
+    results for coding questions and any other type of question. Keeps track of
+    historical conversation elements the best.</li>
+<li><a href="https://bard.google.com">Bard</a> (Google): The ability to copy and paste images
+    and then ask about them was insanely useful.</li>
+<li><a href="https://anthropic.ai/">Claude</a> (Anthropic): Very smooth to use. I would say
+    that Claude is the closest to rivaling ChatGPT.</li>
+</ul>
+<p>In the past, coding was done by hand using only a compiler. Next,
+<abbr title="Integrated Development Environment">IDEs</abbr> were used to make
+editing code closer to the compiler's understanding. After that,
+<abbr title="Language Server Protocols">LSPs</abbr> came along which outsourced
+the job of querying the compiler for code info to a separate process rather than
+being "integrated" into the editor. This made codebases queryable like a
+database. Finally, we come to AI models like GitHub Copilot where ChatGPT-like
+assistance is integrated into the editor itself to grant it more capabilities
+than code generation alone. This is the future of coding.</p>
+<p>Although I did not make use of GitHub Copilot on this project, I'm aware that I
+my future employability will likely require expertise in AI tooling. For this
+project, however, I wanted to work how I learned to over the past 11 years.
+Seriously though, my official advice in 2023 would be to take advantage of the
+accessability of these extremely powerful AI tools while they remain available
+to the public.</p>
 <p><img alt="Boxel Screenshot" src="../static/img/boxels/boxels-screenshot-1.png" /></p>
 <h2>Conclusion</h2>
 <p>I had a lot of fun making Boxels. It was hard work but I didn't push myself too
@@ -538,15 +562,17 @@ to upload it to Itch.io or Steam.</p>
 <p>If I had to leave a <abbr title="Too Long, Didn't Read">TLDR</abbr>, here's what
 I'd say:</p>
 <blockquote>
-<p><strong>Key Takeaways</strong>
-* Good code leading to good technology can be written in any language, but it
+<p><strong>Key Takeaways</strong></p>
+<ul>
+<li>
+<p>Good code leading to good technology can be written in any language, but it
     might require breaking away from established norms in order to get there.
     Specifically, I didn't do test driven development and inheritance
     hierarchies are shallow. There are functions defined in global scope and I
     didn't focus too much on code reusability. Hopefully in another post I'll go
     over my thoughts on my exact programming philosophy but for now I'll reduce
     it to: don't overuse object-oriented or functional programming.</p>
-<ul>
+</li>
 <li>
 <p>Don't underestimate the effort required for making networked multiplayer
     games. The client and server are not two separate projects, the effort
