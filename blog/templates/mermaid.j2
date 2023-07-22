@@ -2,7 +2,12 @@
 <script>
     function initializeMermaid()
     {
-        mermaid.initialize({startOnLoad: true})
+        mermaid.initialize({
+            startOnLoad: true,
+            sequenceDiagram: {
+                enable: true
+            }
+        })
     }
 
     if (

@@ -198,6 +198,14 @@ Pydantic.
 
 <!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
 
+<pre>
+    <div class="mermaid">
+        graph TD
+            _1((Server)) <-- TCP --> _2([Client 1])
+            _1 <-- TCP --> _3([Client N])
+    </div>
+</pre>
+
 Events also took advantage of the mixin class design pattern by inheriting from
 a quick update type that would demarcate that event as eligible for
 deduplication in situations where the network was unable to keep up with the
@@ -210,6 +218,25 @@ as inheriting one or two classes and adding annotated fields.
 
 - Creation and Utility of Stoppable Task System
 - Python Threading
+
+<pre>
+    <div class="mermaid">
+        sequenceDiagram
+            Main Thread ->> Task Thread: start()
+            Task Thread ->> Task Thread: init()
+            critical Concurrent to Main Thread
+                Task Thread ->> Task: tick()
+                Task ->> Task Thread: check if stopped
+                Task Thread ->> Task: tick()
+                Task ->> Task Thread: check if stopped
+                Task Thread ->> Task: tick()
+                Main Thread ->>Task Thread: stop()
+                Task ->> Task Thread: check if stopped
+            end
+            Task Thread ->> Task Thread: drop()
+            Task Thread ->> Main Thread: join()
+    </div>
+</pre>
 
 Asynchrony was harnessed through the creation of a stoppable task type that took
 advantage of Python generators to yield at key stopping points in the thread

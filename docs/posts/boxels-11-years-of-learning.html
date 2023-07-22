@@ -212,17 +212,16 @@ experience, not a command line application. People really seem to underestimate
 Python. Sometimes for good reason, other times it just baffles me how hard some
 tasks are in other languages when I've seen good designs that have existed in
 Python for years before being adopted elsewhere.</p>
-<p><strong>A Word On Conversational AI</strong></p>
-<ul>
-<li>Use of ChatGPT as a coding assistant</li>
-</ul>
-<p><img alt="Boxel Screenshot" src="../static/img/boxels/boxels-screenshot-2.png" /></p>
+<p><strong>Game Object Model</strong></p>
+<p>The game object model was maintained by the server and mirrored on the client.
+Modifications to the model during runtime were communicated via one-shot or
+frame-by-frame events. The map was only updated upon modification and the current
+position of entities and connected players was sent every frame. The object
+model was simple in that there were only ever 3 types, one for the player,
+entities, and boxels. More types would have eventually been needed to structure
+and store more data, however, as dictionaries formed the backbone of the client
+and server's game object storage.</p>
 <p><strong>Networking</strong></p>
-<ul>
-<li>Network Design: Messaging Model</li>
-<li>Networking Techniques: TCP and UDP, NAT Punchthrough</li>
-<li>Wire Protocol vs Message Protocol</li>
-</ul>
 <p>Communication between clients and the server was implemented by using raw TCP
 sockets. I wanted to create a networking solution by hand because I learned this
 a long time ago and have rarely gotten a chance to use it for something real. It
@@ -232,11 +231,53 @@ like: "are TCP connections
 (Yes they are).</p>
 <p>On the server, connections were tracked by address and handled in their own
 task.</p>
+<p>Both the client and the server made use of a custom networking facility that
+used raw TCP sockets. To send structured data back and forth, an event/messaging
+model was created by using Pydantic models serialized to JSON and encoded with
+MessagePack which greatly reduced their size. Events were effectively type
+checked as constructing one with incorrect data types was impossible using
+Pydantic.</p>
+<!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
+
+<pre>
+    <div class="mermaid">
+        graph TD
+            _1((Server)) <-- TCP --> _2([Client 1])
+            _1 <-- TCP --> _3([Client N])
+    </div>
+</pre>
+
+<p>Events also took advantage of the mixin class design pattern by inheriting from
+a quick update type that would demarcate that event as eligible for
+deduplication in situations where the network was unable to keep up with the
+amount of those events being sent. This worked extremely well and made it so
+that only one player input or entity update event was ever sent over the wire.
+Since the events already used Pydantic, adding a new event type was as simple
+as inheriting one or two classes and adding annotated fields.</p>
 <p><strong>Asynchronous Programming</strong></p>
 <ul>
 <li>Creation and Utility of Stoppable Task System</li>
 <li>Python Threading</li>
 </ul>
+<pre>
+    <div class="mermaid">
+        sequenceDiagram
+            Main Thread ->> Task Thread: start()
+            Task Thread ->> Task Thread: init()
+            critical Concurrent to Main Thread
+                Task Thread ->> Task: tick()
+                Task ->> Task Thread: check if stopped
+                Task Thread ->> Task: tick()
+                Task ->> Task Thread: check if stopped
+                Task Thread ->> Task: tick()
+                Main Thread ->>Task Thread: stop()
+                Task ->> Task Thread: check if stopped
+            end
+            Task Thread ->> Task Thread: drop()
+            Task Thread ->> Main Thread: join()
+    </div>
+</pre>
+
 <p>Asynchrony was harnessed through the creation of a stoppable task type that took
 advantage of Python generators to yield at key stopping points in the thread
 handler function. Cleanup code could then examine which checkpoint was last
@@ -247,40 +288,8 @@ feature of the task class was a built in way to send and receive messages from
 outside and inside the task. This provided a very flexible base upon which to
 build complex raw socket handling code while utilizing Python's ability to get
 parallelism with IO tasks.</p>
-<p><strong>Event/Messaging System</strong></p>
-<ul>
-<li>Use of Pydantic and MessagePack</li>
-<li>Quick Update Type and Deduplication</li>
-</ul>
 <!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
 
-<p>Both the client and the server made use of a custom networking facility that
-used raw TCP sockets. To send structured data back and forth, an event/messaging
-model was created by using Pydantic models serialized to JSON and encoded with
-MessagePack which greatly reduced their size. Events were effectively type
-checked as constructing one with incorrect data types was impossible using
-Pydantic.</p>
-<p>TODO(pbz): Create mermaid diagrams for this stuff.</p>
-<p>Events also took advantage of the mixin class design pattern by inheriting from
-a quick update type that would demarcate that event as eligible for
-deduplication in situations where the network was unable to keep up with the
-amount of those events being sent. This worked extremely well and made it so
-that only one player input or entity update event was ever sent over the wire.
-Since the events already used Pydantic, adding a new event type was as simple
-as inheriting one or two classes and adding annotated fields.</p>
-<h2>GameObject Model</h2>
-<ul>
-<li>Server and Client Game Object Model</li>
-<li>Object Model Modification and Event Communication</li>
-</ul>
-<p>The game object model was maintained by the server and mirrored on the client.
-Modifications to the model during runtime were communicated via one-shot or
-frame-by-frame events. The map was only update upon modification and the current
-position of entities and connected players was sent every frame. The object
-model was simple in that there were only ever 3 types, one for the player,
-entities, and boxels. More types would have eventually been needed to structure
-and store more data, however, as dictionaries formed the backbone of the client
-and server's game object storage.</p>
 <p><strong>Graphics and Input</strong></p>
 <ul>
 <li>Rendering with Raylib</li>
@@ -320,16 +329,37 @@ map changed.</p>
 <p><strong>Resource Caching</strong></p>
 <p>At startup, both the client and the server iterate over all the assets in the
 entire resource folder and hash their contents using
-<a href="https://mollyrocket.com/meowhash">MeowHash</a>. The path of the asset is then
+<a href="https://mollyrocket.com/meowhash">MeowHash</a>. MeowHash was amazing to use
+because it just astonishingly fast. The resource path of the asset is then
 stored in a table like this:</p>
-<p>| Key | Value |
-| - | - |
-| Hash | Path |
-| Path | Hash |</p>
-<p>First Header  | Second Header
-------------- | -------------
-Content Cell  | Content Cell
-Content Cell  | Content Cell</p>
+<!-- TODO: Make tables work -->
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Hash</td>
+      <td>Path</td>
+    </tr>
+    <tr>
+      <td>Path</td>
+      <td>Hash</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The main advantage to storing the hash and path twice but in reverse is that a
+resource can either be looked up by path or by file content hash. This is a
+powerful system because the server can specify that a given entity or boxel
+should have specific textures by sending only their hash which is only 16 bytes
+(128 bit hash). Additionally, if the server wanted to verify the integrity of
+the client's resources, it could send a resource manifest containing each path
+and its hash. I didn't implement that but it would be a powerful validation
+mechanism.</p>
 <h2>Challenges Encountered</h2>
 <ul>
 <li>
@@ -420,6 +450,11 @@ in the way.</p>
     it grew.</p>
 </li>
 </ul>
+<p><strong>A Word On Conversational AI</strong></p>
+<ul>
+<li>Use of ChatGPT as a coding assistant</li>
+</ul>
+<p><img alt="Boxel Screenshot" src="../static/img/boxels/boxels-screenshot-2.png" /></p>
 <h2>Personal Notes</h2>
 <p>These are not strictly related to the technical or non-technical design of
 Boxels but I wanted to go over my thought process for projects like this.</p>
@@ -549,7 +584,12 @@ I'd say:</p>
 <script>
     function initializeMermaid()
     {
-        mermaid.initialize({startOnLoad: true})
+        mermaid.initialize({
+            startOnLoad: true,
+            sequenceDiagram: {
+                enable: true
+            }
+        })
     }
 
     if (
