@@ -28,18 +28,19 @@ Boxels is the result of this effort. Since it was for my own personal closure,
 it is not released and not open source, so the public-facing deliverable is this
 post.
 
-## The Design of Boxels
+## Overall Design of Boxels
 
 Boxels refer to a nomenclature I have developed over the years:
 
-* Pixels: containers for a specific color in a 2D image (Mario)
-* Voxels: volumetric pixels (Minecraft)
-* Bloxels: isometric 2.5D voxel sprites ()
-* Boxels: textured cubes large enough for one game entity to stand in
+* **Pixels** (others): containers for a specific color in a 2D image (Mario)
+* **Voxels** (others): volumetric pixels (Minecraft)
+* **Bloxels** (me): isometric 2.5D voxel sprites
+    ([Alloy Bloxel Editor](https://pebaz.itch.io/alloy-bloxel-editor))
+* **Boxels** (me): textured cubes large enough for one game entity to stand in
 
 The design of the game involved a client that handles player input, sound,
 resource loading, and graphics, and a server that would handle the gameworld
-simulation with physics, player -> entity tracking, and map generation.
+simulation with physics, entity movement, and map generation.
 
 The overall idea was that players could walk around in a cuboid world, bump into
 walls, each other, and perhaps pick up items or anything else I could come up
@@ -139,8 +140,25 @@ libraries I used, I was able to maintain full control over the architecture of
 the game and could decide when and where to implement something myself. One
 example of this is 3D audio. I ended up using basic panning to make it sound as
 if a sound was 3D because it turns out that distributing OpenAL with an
-application is more difficult than it should be. Here's a list of libraries I
-used:
+application is more difficult than it should be. There is some choice to be had
+here, as there are many Python game libraries like:
+
+* [ursina](https://www.ursinaengine.org/)
+* [pygame](https://www.pygame.org/news)
+* [pyglet](https://pyglet.org/)
+* [pyside](https://wiki.qt.io/Qt_for_Python)
+* [Kivy](https://kivy.org/)
+* [panda3d](https://www.panda3d.org/)
+* [Harfang3D](https://www.harfang3d.com/en_US/)
+* [SFML](https://www.sfml-dev.org/index.php)
+* [SDL](https://www.libsdl.org/)
+* [GLFW](https://www.glfw.org/)
+
+However, I've really grown to love the C-like API of
+[Raylib](https://www.raylib.com/).
+
+Here's the full list of libraries I used, not counting dependencies of
+dependencies:
 
 * [**Raylib**](https://github.com/electronstudio/raylib-python-cffi):
     cross-platform windowing, rendering API, mouse/keyboard/gamepad input,
@@ -186,17 +204,12 @@ like: "are TCP connections
 <abbr title="Simultaneous bidirectional communication">full duplex</abbr>?" 🤔
 (Yes they are).
 
-On the server, connections were tracked by address and handled in their own
-task.
-
 Both the client and the server made use of a custom networking facility that
 used raw TCP sockets. To send structured data back and forth, an event/messaging
 model was created by using Pydantic models serialized to JSON and encoded with
 MessagePack which greatly reduced their size. Events were effectively type
 checked as constructing one with incorrect data types was impossible using
 Pydantic.
-
-<!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
 
 <pre>
     <div class="mermaid">
@@ -214,10 +227,18 @@ that only one player input or entity update event was ever sent over the wire.
 Since the events already used Pydantic, adding a new event type was as simple
 as inheriting one or two classes and adding annotated fields.
 
-**Asynchronous Programming**
+On the server, connections were tracked by address and handled in their own
+asynchronous task. This allowed for parallelism to the fullest extent possible
+in <abbr title="Original Python implementation written in C">CPython</abbr>,
+given the limitations imposed by the
+<abbr title="Global Interpreter Lock">GIL</abbr>. It also meant that the server
+could be started and then it would handle incoming connections and sending
+events back and forth. Events sent by the client would all be funneled back to
+the server simulation. Some events like player connection events would have to
+take the client's network address into account in order to keep track of where
+the event came from.
 
-- Creation and Utility of Stoppable Task System
-- Python Threading
+**Asynchronous Programming**
 
 <pre>
     <div class="mermaid">
@@ -248,6 +269,20 @@ feature of the task class was a built in way to send and receive messages from
 outside and inside the task. This provided a very flexible base upon which to
 build complex raw socket handling code while utilizing Python's ability to get
 parallelism with IO tasks.
+
+I really enjoyed making this system because it allowed tasks to be created by
+subclassing the `Task` class and then overriding the `task()` method where a
+simple `yield` statement would cause the task thread to check if there had been
+a request to stop and join the thread. This made it so that runaway tasks were
+more difficult to accidentally create if `yield`s were placed at appropriate
+checkpoints. Another benefit of `yield` is that it allowed the task thread to
+simply not call the task generator and instead call `drop()` which would perform
+any cleanup tasks that needed to be done like closing files or network
+connections. Since tasks could be stopped abruptly in the middle, it was
+necessary for the `drop()` method to know what resources were in use. I
+implemented a checkpoint system so that tasks could simply:
+`yield <checkpoint object>` and that object would be passed to `drop()` as the
+last checkpoint encountered before deallocating resources.
 
 <!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
 

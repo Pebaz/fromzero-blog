@@ -5,7 +5,7 @@
 import json, jinja2, markdown, datetime
 from pathlib import Path
 from markdown.extensions.fenced_code import FencedCodeExtension
-from md_mermaid import MermaidExtension
+# from md_mermaid import MermaidExtension
 from feedgen.feed import FeedGenerator
 
 

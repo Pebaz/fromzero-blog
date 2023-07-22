@@ -86,17 +86,18 @@ multiplayer experience with simple cuboid walls and billboard sprites.</p>
 <p>Boxels is the result of this effort. Since it was for my own personal closure,
 it is not released and not open source, so the public-facing deliverable is this
 post.</p>
-<h2>The Design of Boxels</h2>
+<h2>Overall Design of Boxels</h2>
 <p>Boxels refer to a nomenclature I have developed over the years:</p>
 <ul>
-<li>Pixels: containers for a specific color in a 2D image (Mario)</li>
-<li>Voxels: volumetric pixels (Minecraft)</li>
-<li>Bloxels: isometric 2.5D voxel sprites ()</li>
-<li>Boxels: textured cubes large enough for one game entity to stand in</li>
+<li><strong>Pixels</strong> (others): containers for a specific color in a 2D image (Mario)</li>
+<li><strong>Voxels</strong> (others): volumetric pixels (Minecraft)</li>
+<li><strong>Bloxels</strong> (me): isometric 2.5D voxel sprites
+    (<a href="https://pebaz.itch.io/alloy-bloxel-editor">Alloy Bloxel Editor</a>)</li>
+<li><strong>Boxels</strong> (me): textured cubes large enough for one game entity to stand in</li>
 </ul>
 <p>The design of the game involved a client that handles player input, sound,
 resource loading, and graphics, and a server that would handle the gameworld
-simulation with physics, player -&gt; entity tracking, and map generation.</p>
+simulation with physics, entity movement, and map generation.</p>
 <p>The overall idea was that players could walk around in a cuboid world, bump into
 walls, each other, and perhaps pick up items or anything else I could come up
 with. I ended up just making networked collision with boxels, entities, and
@@ -188,8 +189,24 @@ libraries I used, I was able to maintain full control over the architecture of
 the game and could decide when and where to implement something myself. One
 example of this is 3D audio. I ended up using basic panning to make it sound as
 if a sound was 3D because it turns out that distributing OpenAL with an
-application is more difficult than it should be. Here's a list of libraries I
-used:</p>
+application is more difficult than it should be. There is some choice to be had
+here, as there are many Python game libraries like:</p>
+<ul>
+<li><a href="https://www.ursinaengine.org/">ursina</a></li>
+<li><a href="https://www.pygame.org/news">pygame</a></li>
+<li><a href="https://pyglet.org/">pyglet</a></li>
+<li><a href="https://wiki.qt.io/Qt_for_Python">pyside</a></li>
+<li><a href="https://kivy.org/">Kivy</a></li>
+<li><a href="https://www.panda3d.org/">panda3d</a></li>
+<li><a href="https://www.harfang3d.com/en_US/">Harfang3D</a></li>
+<li><a href="https://www.sfml-dev.org/index.php">SFML</a></li>
+<li><a href="https://www.libsdl.org/">SDL</a></li>
+<li><a href="https://www.glfw.org/">GLFW</a></li>
+</ul>
+<p>However, I've really grown to love the C-like API of
+<a href="https://www.raylib.com/">Raylib</a>.</p>
+<p>Here's the full list of libraries I used, not counting dependencies of
+dependencies:</p>
 <ul>
 <li><a href="https://github.com/electronstudio/raylib-python-cffi"><strong>Raylib</strong></a>:
     cross-platform windowing, rendering API, mouse/keyboard/gamepad input,
@@ -229,16 +246,12 @@ ended up being harder than I remember, mostly because I had forgotten things
 like: "are TCP connections
 <abbr title="Simultaneous bidirectional communication">full duplex</abbr>?" 🤔
 (Yes they are).</p>
-<p>On the server, connections were tracked by address and handled in their own
-task.</p>
 <p>Both the client and the server made use of a custom networking facility that
 used raw TCP sockets. To send structured data back and forth, an event/messaging
 model was created by using Pydantic models serialized to JSON and encoded with
 MessagePack which greatly reduced their size. Events were effectively type
 checked as constructing one with incorrect data types was impossible using
 Pydantic.</p>
-<!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
-
 <pre>
     <div class="mermaid">
         graph TD
@@ -254,11 +267,17 @@ amount of those events being sent. This worked extremely well and made it so
 that only one player input or entity update event was ever sent over the wire.
 Since the events already used Pydantic, adding a new event type was as simple
 as inheriting one or two classes and adding annotated fields.</p>
+<p>On the server, connections were tracked by address and handled in their own
+asynchronous task. This allowed for parallelism to the fullest extent possible
+in <abbr title="Original Python implementation written in C">CPython</abbr>,
+given the limitations imposed by the
+<abbr title="Global Interpreter Lock">GIL</abbr>. It also meant that the server
+could be started and then it would handle incoming connections and sending
+events back and forth. Events sent by the client would all be funneled back to
+the server simulation. Some events like player connection events would have to
+take the client's network address into account in order to keep track of where
+the event came from.</p>
 <p><strong>Asynchronous Programming</strong></p>
-<ul>
-<li>Creation and Utility of Stoppable Task System</li>
-<li>Python Threading</li>
-</ul>
 <pre>
     <div class="mermaid">
         sequenceDiagram
@@ -288,6 +307,19 @@ feature of the task class was a built in way to send and receive messages from
 outside and inside the task. This provided a very flexible base upon which to
 build complex raw socket handling code while utilizing Python's ability to get
 parallelism with IO tasks.</p>
+<p>I really enjoyed making this system because it allowed tasks to be created by
+subclassing the <code>Task</code> class and then overriding the <code>task()</code> method where a
+simple <code>yield</code> statement would cause the task thread to check if there had been
+a request to stop and join the thread. This made it so that runaway tasks were
+more difficult to accidentally create if <code>yield</code>s were placed at appropriate
+checkpoints. Another benefit of <code>yield</code> is that it allowed the task thread to
+simply not call the task generator and instead call <code>drop()</code> which would perform
+any cleanup tasks that needed to be done like closing files or network
+connections. Since tasks could be stopped abruptly in the middle, it was
+necessary for the <code>drop()</code> method to know what resources were in use. I
+implemented a checkpoint system so that tasks could simply:
+<code>yield &lt;checkpoint object&gt;</code> and that object would be passed to <code>drop()</code> as the
+last checkpoint encountered before deallocating resources.</p>
 <!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
 
 <p><strong>Graphics and Input</strong></p>
