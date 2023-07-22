@@ -168,6 +168,8 @@ Python for years before being adopted elsewhere.
 **A Word On Conversational AI**
 - Use of ChatGPT as a coding assistant
 
+![Boxel Screenshot](../static/img/boxels/boxels-screenshot-2.png)
+
 ## Challenges Encountered
 
 - There is no cross-platform way to get the MTU in any language: originally, I
@@ -350,6 +352,8 @@ use of procedural generation.
 
 ![Boxel Mesh](../static/img/boxels/boxel-mesh.png)
 
+![Boxel Mesh](../static/img/boxels/boxel-mesh-2.png)
+
 The 3D boxels themselves were loaded from a mesh created in Blender containing
 6 quads made of 2 coplanar triangles, each with UV coordinates mapped to a
 spritesheet laid out with room for 6 textures along the X axis. The boxel model
@@ -423,6 +427,7 @@ remember. Lastly, latent design allows me to maximally absorb state of the art
 ideas as I learn about them. From there, I can rethink the design much the same
 as I had been prior to learning the new facts.
 
+![Boxel Screenshot](../static/img/boxels/boxels-screenshot-1.png)
 
 ## Conclusion
 
@@ -456,15 +461,3 @@ I'd say:
     [Ripgrep](https://github.com/BurntSushi/ripgrep) on your entire file system
     and then ask yourself if you knew computers were that fast. Python isn't.
     Perhaps [Mojo](https://www.modular.com/mojo) will change that in time.
-
-
-
----
-
-<abbr title="Transmission Control Protocol">TCP</abbr>
-
----
-
-![Boxel Screenshot](../static/img/boxels/boxels-screenshot-2.png)
-
-![Boxel Screenshot](../static/img/boxels/boxels-screenshot-1.png)
