@@ -37,6 +37,12 @@ fg.language('en')
 # TODO(pbz): fg.logo('http://ex.com/logo.jpg')
 # TODO(pbz): fg.link( href='http://larskiesow.de/test.rss', rel='self')
 
+background_images = [
+    (Path('../static/img/backgrounds') / img.name).as_posix()
+    for img in Path('docs/static/img/backgrounds').iterdir()
+    if img.is_file()
+]
+
 post_j2 = environment.get_template('post.j2')
 posts = {}
 
@@ -50,7 +56,11 @@ for post_dir in (blog_root / 'posts').iterdir():
             # MermaidExtension()
         ]
     )
-    post_html = post_j2.render(body=post_body, **properties)
+    post_html = post_j2.render(
+        body=post_body,
+        background_images=background_images,
+        **properties
+    )
     (Path('docs/posts') / post_dir.name).with_suffix('.html').write_text(post_html)
 
     posts[post_dir.name] = properties
@@ -72,7 +82,7 @@ for page in (blog_root / 'pages').iterdir():
     if page.is_dir():
         continue
     page_j2 = environment.from_string(page.read_text())
-    page_html = page_j2.render(posts=posts)
+    page_html = page_j2.render(posts=posts, background_images=background_images)
     (Path('docs/pages') / page.name).with_suffix('.html').write_text(page_html)
 
 # Write out index.html

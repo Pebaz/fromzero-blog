@@ -21,45 +21,12 @@
 
     {% include "light-dark-theme.j2" %}
     {% include "highlight.j2" %}
-
-    <style>
-        .header-image {
-            /*position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            */
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-        }
-    </style>
-
-    <style>
-        .background {
-            position: relative;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .background img {
-            position: fixed;
-            left: 50%;
-            top: 0;
-            transform: translate(-50%, 0);
-            min-width: 100%;
-            min-height: 100%;
-            z-index: -1;
-            border-radius: 0;
-        }
-    </style>
+    {% include "body.css.j2" %}
 </head>
 
 <body>
     <div class="wrapper">
-        <header class="header">
-            {# <img src="{{ cover_image }}" class="header-image"> #}
-        </header>
+        <header class="header"></header>
         <article class="main">
             <div class="body-container">
                 <div class="body-header">
@@ -90,10 +57,6 @@
     {% include "ko-fi.j2" %}
 
     {% include "mermaid.j2" %}
-
-    {# <div class="background">
-        <img src="https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80">
-    </div> #}
 </body>
 
 </html>

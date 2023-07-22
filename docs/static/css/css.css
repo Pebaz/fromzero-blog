@@ -1,22 +1,6 @@
 /*
 CSS Styles for both pages and posts.
 */
-body {
-    padding: 2em;
-    /* background-image: url('https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80'); */
-    /*background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover; */
-
-
-    background: url('https://plus.unsplash.com/premium_photo-1685082778248-d478f0b86512?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-
-    height: 100vh;
-}
 
 .wrapper {
     display: flex;
@@ -88,7 +72,6 @@ body {
 }
 
 .body-header {
-    background-color: lightgray;
     padding: 10px;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
@@ -96,7 +79,6 @@ body {
 }
 
 .body-footer {
-    background-color: lightgray;
     padding: 10px;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
@@ -104,10 +86,8 @@ body {
 }
 
 .body-content {
-    background-color: white;
     flex-grow: 2;
     padding: 10px;
-    background-color: lightgray;
     text-align: left;
     background-color: rgba(0, 0, 0, 0);
 }
