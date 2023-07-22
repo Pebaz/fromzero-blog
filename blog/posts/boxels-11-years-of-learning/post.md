@@ -507,7 +507,6 @@ as I had been prior to learning the new facts.
 
 **A Word On Conversational AI**
 
-ChatGPT as a coding assitant (both more and less useful than people think)
 ChatGPT as a coding assistant was both **more** and **less** useful than people
 seem to think. It took me all of my 11 years of practice and an AI assistant to
 do this in 13 days. People think that the usage of AI makes things effortless
