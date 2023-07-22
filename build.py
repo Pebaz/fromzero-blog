@@ -1,6 +1,11 @@
+"""
+! IMPORTANT: The `docs/` folder is auto-generated except for the CNAME file.
+"""
+
 import json, jinja2, markdown, datetime
 from pathlib import Path
 from markdown.extensions.fenced_code import FencedCodeExtension
+# from md_mermaid import MermaidExtension
 from feedgen.feed import FeedGenerator
 
 
@@ -32,6 +37,12 @@ fg.language('en')
 # TODO(pbz): fg.logo('http://ex.com/logo.jpg')
 # TODO(pbz): fg.link( href='http://larskiesow.de/test.rss', rel='self')
 
+background_images = [
+    (Path('../static/img/backgrounds') / img.name).as_posix()
+    for img in Path('docs/static/img/backgrounds').iterdir()
+    if img.is_file()
+]
+
 post_j2 = environment.get_template('post.j2')
 posts = {}
 
@@ -40,10 +51,17 @@ for post_dir in (blog_root / 'posts').iterdir():
     properties = json.load((post_dir / 'properties.json').open())
     post_body = markdown.markdown(
         (post_dir / 'post.md').read_text(),
-        extensions=[FencedCodeExtension()]
+        extensions=[
+            FencedCodeExtension(),
+            # MermaidExtension()
+        ]
     )
-    post_html = post_j2.render(body=post_body, **properties)
-    (Path('docs') / post_dir.name).with_suffix('.html').write_text(post_html)
+    post_html = post_j2.render(
+        body=post_body,
+        background_images=background_images,
+        **properties
+    )
+    (Path('docs/posts') / post_dir.name).with_suffix('.html').write_text(post_html)
 
     posts[post_dir.name] = properties
 
@@ -60,7 +78,14 @@ for post_dir in (blog_root / 'posts').iterdir():
 # Write out RSS feed
 fg.rss_file('docs/static/rss.xml', pretty=True)
 
+for page in (blog_root / 'pages').iterdir():
+    if page.is_dir():
+        continue
+    page_j2 = environment.from_string(page.read_text())
+    page_html = page_j2.render(posts=posts, background_images=background_images)
+    (Path('docs/pages') / page.name).with_suffix('.html').write_text(page_html)
+
 # Write out index.html
-index_j2 = environment.get_template('index.j2')
-index_html = index_j2.render(posts=posts)
-(Path('docs') / 'index.html').write_text(index_html)
+# index_j2 = environment.get_template('index.j2')
+# index_html = index_j2.render(posts=posts)
+# (Path('docs/pages') / 'index.html').write_text(index_html)

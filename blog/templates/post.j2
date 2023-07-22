@@ -3,7 +3,8 @@
 
 <head>
     <title>{{ title }}</title>
-    <link rel="stylesheet" href="static/css.css">
+    <link rel="stylesheet" href="../static/css/css.css">
+    <link rel="stylesheet" href="../static/css/fonts.css">
 
     <meta property="og:title" content="{{ title }}" />
     {#
@@ -20,31 +21,17 @@
 
     {% include "light-dark-theme.j2" %}
     {% include "highlight.j2" %}
-    {% include "layout.j2" %}
-    {% include "fonts.j2" %}
-
-    <style>
-        .header-image {
-            /*position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            */
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-        }
-    </style>
+    {% include "body.css.j2" %}
 </head>
 
 <body>
     <div class="wrapper">
-        <header class="header">
-            {# <img src="{{ cover_image }}" class="header-image"> #}
-        </header>
+        <header class="header"></header>
         <article class="main">
             <div class="body-container">
-                <div class="body-header">Header</div>
+                <div class="body-header">
+                    <a href="../pages/index.html">From Zero Systems</a>
+                </div>
                 <div class="body-content">
                     <h1>{{ title }}</h1>
                     <h3>{{ subtitle }}</h3>
@@ -68,6 +55,8 @@
     {% include "utterances.j2" %}
 
     {% include "ko-fi.j2" %}
+
+    {% include "mermaid.j2" %}
 </body>
 
 </html>

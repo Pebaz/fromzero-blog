@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html prefix="og: https://ogp.me/ns#">
+
+<head>
+    <title>Foo Bar Baz</title>
+    <link rel="stylesheet" href="../static/css/css.css">
+    <link rel="stylesheet" href="../static/css/fonts.css">
+
+    <meta property="og:title" content="Foo Bar Baz" />
+    
+
+    <script>
+    // Load dark or light mode based on system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.dataset.theme = 'dark';
+    }
+    else {
+        document.documentElement.dataset.theme = 'light';
+    }
+</script>
+    <script src="../static/highlight/highlight.min.js"></script>
+<script>
+    // Append CSS syntax highlighting theme element to head
+    var highlightjs_theme = document.createElement("link");
+    highlightjs_theme.rel = "stylesheet";
+
+    if (document.documentElement.dataset.theme == 'dark') {
+        highlightjs_theme.href = "../static/highlight/srcery.min.css";
+    }
+    else {
+        highlightjs_theme.href = "../static/highlight/default.min.css";
+    }
+
+    document.head.appendChild(highlightjs_theme);
+    hljs.highlightAll();
+</script>
+    <style>
+    body {
+        padding: 2em;
+        background: url(../static/img/backgrounds/bg6.png) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        height: 100vh;
+    }
+</style>
+<title></title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header"></header>
+        <article class="main">
+            <div class="body-container">
+                <div class="body-header">
+                    <a href="../pages/index.html">From Zero Systems</a>
+                </div>
+                <div class="body-content">
+                    <h1>Foo Bar Baz</h1>
+                    <h3>What can be done?</h3>
+                    <h4><i>2023-06-13</i></h3>
+
+                    <p>No need to put the title, that will be added automatically.</p>
+<p><a href="index.html">How do links work?</a></p>
+<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+<pre><code class="language-rust">struct Thing
+{
+    item_logical_count: usize,
+    items_physical: Vec&lt;i128&gt;,
+}
+
+fn main()
+{
+    println!(&quot;Hello World!&quot;);
+
+    let x = 123;
+    let y = &amp;x;
+
+    println!(&quot;{y}&quot;);
+}
+</code></pre>
+<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero <strong>sit amet</strong> quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                </div>
+                <div class="body-footer">
+                    <style>
+    .rss-icon {
+        width: 24px;
+        height: 24px;
+        color: #000;
+    }
+</style>
+
+<a href="../static/rss.xml">
+    <svg class="rss-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+    </svg>
+</a>
+                </div>
+            </div>
+
+        </article>
+        <aside class="aside aside-1"></aside>
+        <aside class="aside aside-2"></aside>
+        <footer class="footer"></footer>
+    </div>
+
+
+    <!-- Comments do not load locally -->
+    <!-- Utterances GitHub Issue Comments -->
+<script src="https://utteranc.es/client.js"
+    repo="pebaz/fromzero-blog"
+    issue-term="og:title"
+    label="comment"
+    theme="preferred-color-scheme"
+    crossorigin="anonymous"
+    async>
+</script>
+
+    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+<script>
+    kofiWidgetOverlay.draw('pebaz', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support me',
+        'floating-chat.donateButton.background-color': '#00b9fe',
+        'floating-chat.donateButton.text-color': '#fff'
+    });
+</script>
+
+    <script src="../static/js/mermaid.js"></script>
+<script>
+    function initializeMermaid()
+    {
+        mermaid.initialize({
+            startOnLoad: true,
+            sequenceDiagram: {
+                enable: true
+            }
+        })
+    }
+
+    if (
+        document.readyState === "complete" ||
+        document.readyState === "interactive"
+    ) {
+        setTimeout(initializeMermaid, 1);
+    }
+    else
+    {
+        document.addEventListener("DOMContentLoaded", initializeMermaid);
+    }
+</script>
+</body>
+
+</html>

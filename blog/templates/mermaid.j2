@@ -1,0 +1,23 @@
+<script src="../static/js/mermaid.js"></script>
+<script>
+    function initializeMermaid()
+    {
+        mermaid.initialize({
+            startOnLoad: true,
+            sequenceDiagram: {
+                enable: true
+            }
+        })
+    }
+
+    if (
+        document.readyState === "complete" ||
+        document.readyState === "interactive"
+    ) {
+        setTimeout(initializeMermaid, 1);
+    }
+    else
+    {
+        document.addEventListener("DOMContentLoaded", initializeMermaid);
+    }
+</script>

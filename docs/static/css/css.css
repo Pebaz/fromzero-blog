@@ -1,0 +1,129 @@
+/*
+CSS Styles for both pages and posts.
+*/
+
+.wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    text-align: center;
+}
+
+.wrapper>* {
+    padding: 10px;
+    flex: 1 100%;
+}
+
+.header {
+    /* background: tomato; */
+}
+
+.footer {
+    /* background: lightgreen; */
+}
+
+.main {
+    /* background: deepskyblue; */
+    border-radius: 16px;
+    backdrop-filter: blur(100px);
+    /* This is so that the body isn't extra padded */
+    margin: 0;
+    padding: 0;
+}
+
+.aside-1 {
+    /* background: gold; */
+}
+
+.aside-2 {
+    /* background: hotpink; */
+}
+
+@media all and (min-width: 600px) {
+    .aside {
+        flex: 1 0 0;
+    }
+}
+
+@media all and (min-width: 800px) {
+    .main {
+        flex: 3 0px;
+    }
+
+    .aside-1 {
+        order: 1;
+    }
+
+    .main {
+        order: 2;
+    }
+
+    .aside-2 {
+        order: 3;
+    }
+
+    .footer {
+        order: 4;
+    }
+}
+
+.body-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.body-header {
+    padding: 10px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.body-footer {
+    padding: 10px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.body-content {
+    flex-grow: 2;
+    padding: 10px;
+    text-align: left;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+code {
+    border-radius: 16px;
+}
+
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.green {
+    background-color: green;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+img {
+    width: 75%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 16px;
+    box-shadow: 0px 0px 16px black;
+}
+
+video {
+    width: 75%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 16px;
+    box-shadow: 0px 0px 16px black;
+}
