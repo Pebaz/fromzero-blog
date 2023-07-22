@@ -165,18 +165,18 @@ Python. Sometimes for good reason, other times it just baffles me how hard some
 tasks are in other languages when I've seen good designs that have existed in
 Python for years before being adopted elsewhere.
 
-**A Word On Conversational AI**
+**Game Object Model**
 
-- Use of ChatGPT as a coding assistant
-
-![Boxel Screenshot](../static/img/boxels/boxels-screenshot-2.png)
-
+The game object model was maintained by the server and mirrored on the client.
+Modifications to the model during runtime were communicated via one-shot or
+frame-by-frame events. The map was only updated upon modification and the current
+position of entities and connected players was sent every frame. The object
+model was simple in that there were only ever 3 types, one for the player,
+entities, and boxels. More types would have eventually been needed to structure
+and store more data, however, as dictionaries formed the backbone of the client
+and server's game object storage.
 
 **Networking**
-
-- Network Design: Messaging Model
-- Networking Techniques: TCP and UDP, NAT Punchthrough
-- Wire Protocol vs Message Protocol
 
 Communication between clients and the server was implemented by using raw TCP
 sockets. I wanted to create a networking solution by hand because I learned this
@@ -188,6 +188,23 @@ like: "are TCP connections
 
 On the server, connections were tracked by address and handled in their own
 task.
+
+Both the client and the server made use of a custom networking facility that
+used raw TCP sockets. To send structured data back and forth, an event/messaging
+model was created by using Pydantic models serialized to JSON and encoded with
+MessagePack which greatly reduced their size. Events were effectively type
+checked as constructing one with incorrect data types was impossible using
+Pydantic.
+
+<!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
+
+Events also took advantage of the mixin class design pattern by inheriting from
+a quick update type that would demarcate that event as eligible for
+deduplication in situations where the network was unable to keep up with the
+amount of those events being sent. This worked extremely well and made it so
+that only one player input or entity update event was ever sent over the wire.
+Since the events already used Pydantic, adding a new event type was as simple
+as inheriting one or two classes and adding annotated fields.
 
 **Asynchronous Programming**
 
@@ -205,42 +222,7 @@ outside and inside the task. This provided a very flexible base upon which to
 build complex raw socket handling code while utilizing Python's ability to get
 parallelism with IO tasks.
 
-**Event/Messaging System**
-
-- Use of Pydantic and MessagePack
-- Quick Update Type and Deduplication
-
 <!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
-
-Both the client and the server made use of a custom networking facility that
-used raw TCP sockets. To send structured data back and forth, an event/messaging
-model was created by using Pydantic models serialized to JSON and encoded with
-MessagePack which greatly reduced their size. Events were effectively type
-checked as constructing one with incorrect data types was impossible using
-Pydantic.
-
-TODO(pbz): Create mermaid diagrams for this stuff.
-
-Events also took advantage of the mixin class design pattern by inheriting from
-a quick update type that would demarcate that event as eligible for
-deduplication in situations where the network was unable to keep up with the
-amount of those events being sent. This worked extremely well and made it so
-that only one player input or entity update event was ever sent over the wire.
-Since the events already used Pydantic, adding a new event type was as simple
-as inheriting one or two classes and adding annotated fields.
-
-## GameObject Model
-- Server and Client Game Object Model
-- Object Model Modification and Event Communication
-
-The game object model was maintained by the server and mirrored on the client.
-Modifications to the model during runtime were communicated via one-shot or
-frame-by-frame events. The map was only update upon modification and the current
-position of entities and connected players was sent every frame. The object
-model was simple in that there were only ever 3 types, one for the player,
-entities, and boxels. More types would have eventually been needed to structure
-and store more data, however, as dictionaries formed the backbone of the client
-and server's game object storage.
 
 **Graphics and Input**
 
@@ -409,6 +391,12 @@ mechanism.
 - Dynamic typing combined with metaprogramming made for a powerful design for
     the event system. However, it was also challenging to debug the project as
     it grew.
+
+**A Word On Conversational AI**
+
+- Use of ChatGPT as a coding assistant
+
+![Boxel Screenshot](../static/img/boxels/boxels-screenshot-2.png)
 
 ## Personal Notes
 
