@@ -129,7 +129,7 @@ I rapid prototyped the project using [Kenny's](https://kenney.nl/) free assets.
 This helped make the beginning of the project more enjoyable as there was
 something to render on screen from day one.
 
-## Technical Components
+## Technical Details
 
 **Libraries Used:**
 
@@ -166,9 +166,163 @@ tasks are in other languages when I've seen good designs that have existed in
 Python for years before being adopted elsewhere.
 
 **A Word On Conversational AI**
+
 - Use of ChatGPT as a coding assistant
 
 ![Boxel Screenshot](../static/img/boxels/boxels-screenshot-2.png)
+
+
+**Networking**
+
+- Network Design: Messaging Model
+- Networking Techniques: TCP and UDP, NAT Punchthrough
+- Wire Protocol vs Message Protocol
+
+Communication between clients and the server was implemented by using raw TCP
+sockets. I wanted to create a networking solution by hand because I learned this
+a long time ago and have rarely gotten a chance to use it for something real. It
+ended up being harder than I remember, mostly because I had forgotten things
+like: "are TCP connections
+<abbr title="Simultaneous bidirectional communication">full duplex</abbr>?" 🤔
+(Yes they are).
+
+On the server, connections were tracked by address and handled in their own
+task.
+
+**Asynchronous Programming**
+
+- Creation and Utility of Stoppable Task System
+- Python Threading
+
+Asynchrony was harnessed through the creation of a stoppable task type that took
+advantage of Python generators to yield at key stopping points in the thread
+handler function. Cleanup code could then examine which checkpoint was last
+yielded to see what resources needed to be freed. The server transport, client
+handler, and client transport all used the task type in order to run code in a
+separate thread. All the usual Python threading caveats apply, although a useful
+feature of the task class was a built in way to send and receive messages from
+outside and inside the task. This provided a very flexible base upon which to
+build complex raw socket handling code while utilizing Python's ability to get
+parallelism with IO tasks.
+
+**Event/Messaging System**
+
+- Use of Pydantic and MessagePack
+- Quick Update Type and Deduplication
+
+<!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
+
+Both the client and the server made use of a custom networking facility that
+used raw TCP sockets. To send structured data back and forth, an event/messaging
+model was created by using Pydantic models serialized to JSON and encoded with
+MessagePack which greatly reduced their size. Events were effectively type
+checked as constructing one with incorrect data types was impossible using
+Pydantic.
+
+TODO(pbz): Create mermaid diagrams for this stuff.
+
+Events also took advantage of the mixin class design pattern by inheriting from
+a quick update type that would demarcate that event as eligible for
+deduplication in situations where the network was unable to keep up with the
+amount of those events being sent. This worked extremely well and made it so
+that only one player input or entity update event was ever sent over the wire.
+Since the events already used Pydantic, adding a new event type was as simple
+as inheriting one or two classes and adding annotated fields.
+
+## GameObject Model
+- Server and Client Game Object Model
+- Object Model Modification and Event Communication
+
+The game object model was maintained by the server and mirrored on the client.
+Modifications to the model during runtime were communicated via one-shot or
+frame-by-frame events. The map was only update upon modification and the current
+position of entities and connected players was sent every frame. The object
+model was simple in that there were only ever 3 types, one for the player,
+entities, and boxels. More types would have eventually been needed to structure
+and store more data, however, as dictionaries formed the backbone of the client
+and server's game object storage.
+
+**Graphics and Input**
+
+- Rendering with Raylib
+- Gamepad Input Management
+
+Input was gathered using Raylib. Gamepad input was extremely easy to obtain and
+manage. Graphics were rendered using Raylib.
+
+**3D Boxel Design**
+
+Boxels are designed to support a different texture on each of the 6 sides and be
+about the size of one entity in the game. This makes it so that levels can be
+created quickly while still feeling big enough. I found that with voxels, each
+"volumetric pixel" is too granular and basically requires outdoor areas to make
+use of procedural generation.
+
+![Boxel Mesh](../static/img/boxels/boxel-mesh.png)
+
+![Boxel Mesh](../static/img/boxels/boxel-mesh-2.png)
+
+The 3D boxels themselves were loaded from a mesh created in Blender containing
+6 quads made of 2 coplanar triangles, each with UV coordinates mapped to a
+spritesheet laid out with room for 6 textures along the X axis. The boxel model
+was loaded once but then each unique combination of boxel side textures was
+drawn to an image and uploaded to the GPU for use during rendering. In this way,
+boxels using the same texture could be batched by Raylib and there was ever only
+1 mesh in play aside from the quads submitted by Raylib for billboard sprites,
+fonts, and debug geometry. When drawn to an image during runtime, they would
+look like this:
+
+![Boxel Texture](../static/img/boxels/boxel-texture.png)
+
+![Boxel Texture Annotated](../static/img/boxels/boxel-texture-annotated.png)
+
+Specifying side textures to cache used these combinations:
+
+* All sides
+* Top, rest of sides
+* Top, bottom, rest of sides
+* Top, bottom, left, right, front, back
+
+A small benefit of this was that if a boxel had the same texture ID for all of
+it's sides, only one texture ID would need to be sent over the network when the
+map changed.
+
+**Resource Caching**
+
+At startup, both the client and the server iterate over all the assets in the
+entire resource folder and hash their contents using
+[MeowHash](https://mollyrocket.com/meowhash). MeowHash was amazing to use
+because it just astonishingly fast. The resource path of the asset is then
+stored in a table like this:
+
+<!-- TODO: Make tables work -->
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Hash</td>
+      <td>Path</td>
+    </tr>
+    <tr>
+      <td>Path</td>
+      <td>Hash</td>
+    </tr>
+  </tbody>
+</table>
+
+The main advantage to storing the hash and path twice but in reverse is that a
+resource can either be looked up by path or by file content hash. This is a
+powerful system because the server can specify that a given entity or boxel
+should have specific textures by sending only their hash which is only 16 bytes
+(128 bit hash). Additionally, if the server wanted to verify the integrity of
+the client's resources, it could send a resource manifest containing each path
+and its hash. I didn't implement that but it would be a powerful validation
+mechanism.
 
 ## Challenges Encountered
 
@@ -255,129 +409,6 @@ Python for years before being adopted elsewhere.
 - Dynamic typing combined with metaprogramming made for a powerful design for
     the event system. However, it was also challenging to debug the project as
     it grew.
-
-## Networking
-- Network Design: Messaging Model
-- Networking Techniques: TCP and UDP, NAT Punchthrough
-- Wire Protocol vs Message Protocol
-
-Communication between clients and the server was implemented by using raw TCP
-sockets. I wanted to create a networking solution by hand because I learned this
-a long time ago and have rarely gotten a chance to use it for something real. It
-ended up being harder than I remember, mostly because I had forgotten things
-like: "are TCP connections
-<abbr title="Simultaneous bidirectional communication">full duplex</abbr>?" 🤔
-(Yes they are).
-
-On the server, connections were tracked by address and handled in their own
-task.
-
-## Game Building Blocks
-- Entity System and Future Extensions
-- Project Prototyping with Free Assets
-
-## Asynchronous Programming
-- Creation and Utility of Stoppable Task System
-- Python Threading
-
-Asynchrony was harnessed through the creation of a stoppable task type that took
-advantage of Python generators to yield at key stopping points in the thread
-handler function. Cleanup code could then examine which checkpoint was last
-yielded to see what resources needed to be freed. The server transport, client
-handler, and client transport all used the task type in order to run code in a
-separate thread. All the usual Python threading caveats apply, although a useful
-feature of the task class was a built in way to send and receive messages from
-outside and inside the task. This provided a very flexible base upon which to
-build complex raw socket handling code while utilizing Python's ability to get
-parallelism with IO tasks.
-
-TODO(pbz): Create mermaid diagrams for this stuff.
-
-## Client-Server Model
-- Client Responsibilities
-- Server Responsibilities
-
-## Event/Messaging System
-- Use of Pydantic and MessagePack
-- Quick Update Type and Deduplication
-
-TODO(pbz): Create mermaid diagrams for this stuff.
-
-Both the client and the server made use of a custom networking facility that
-used raw TCP sockets. To send structured data back and forth, an event/messaging
-model was created by using Pydantic models serialized to JSON and encoded with
-MessagePack which greatly reduced their size. Events were effectively type
-checked as constructing one with incorrect data types was impossible using
-Pydantic.
-
-TODO(pbz): Create mermaid diagrams for this stuff.
-
-Events also took advantage of the mixin class design pattern by inheriting from
-a quick update type that would demarcate that event as eligible for
-deduplication in situations where the network was unable to keep up with the
-amount of those events being sent. This worked extremely well and made it so
-that only one player input or entity update event was ever sent over the wire.
-Since the events already used Pydantic, adding a new event type was as simple
-as inheriting one or two classes and adding annotated fields.
-
-## GameObject Model
-- Server and Client Game Object Model
-- Object Model Modification and Event Communication
-
-The game object model was maintained by the server and mirrored on the client.
-Modifications to the model during runtime were communicated via one-shot or
-frame-by-frame events. The map was only update upon modification and the current
-position of entities and connected players was sent every frame. The object
-model was simple in that there were only ever 3 types, one for the player,
-entities, and boxels. More types would have eventually been needed to structure
-and store more data, however, as dictionaries formed the backbone of the client
-and server's game object storage.
-
-## Graphics and Input
-- Rendering with Raylib
-- Gamepad Input Management
-
-Input was gathered using Raylib. Gamepad input was extremely easy to obtain and
-manage. Graphics were rendered using Raylib.
-
-## 3D Boxel Design
-- Designing 3D Boxels with Blender
-- Texture Management and Caching
-
-Boxels are designed to support a different texture on each of the 6 sides and be
-about the size of one entity in the game. This makes it so that levels can be
-created quickly while still feeling big enough. I found that with voxels, each
-"volumetric pixel" is too granular and basically requires outdoor areas to make
-use of procedural generation.
-
-![Boxel Mesh](../static/img/boxels/boxel-mesh.png)
-
-![Boxel Mesh](../static/img/boxels/boxel-mesh-2.png)
-
-The 3D boxels themselves were loaded from a mesh created in Blender containing
-6 quads made of 2 coplanar triangles, each with UV coordinates mapped to a
-spritesheet laid out with room for 6 textures along the X axis. The boxel model
-was loaded once but then each unique combination of boxel side textures was
-drawn to an image and uploaded to the GPU for use during rendering. In this way,
-boxels using the same texture could be batched by Raylib and there was ever only
-1 mesh in play aside from the quads submitted by Raylib for billboard sprites,
-fonts, and debug geometry. When drawn to an image during runtime, they would
-look like this:
-
-![Boxel Texture](../static/img/boxels/boxel-texture.png)
-
-![Boxel Texture Annotated](../static/img/boxels/boxel-texture-annotated.png)
-
-Specifying side textures to cache used these combinations:
-
-* All sides
-* Top, rest of sides
-* Top, bottom, rest of sides
-* Top, bottom, left, right, front, back
-
-A small benefit of this was that if a boxel had the same texture ID for all of
-it's sides, only one texture ID would need to be sent over the network when the
-map changed.
 
 ## Personal Notes
 
