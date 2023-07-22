@@ -214,8 +214,14 @@ Pydantic.
 <pre>
     <div class="mermaid">
         graph TD
-            _1((Server)) <-- TCP --> _2([Client 1])
-            _1 <-- TCP --> _3([Client N])
+            classDef blue fill:#2374f7,stroke:#000,stroke-width:2px,color:#fff
+            classDef pink fill:#eb3dd6,stroke:#000,stroke-width:2px,color:#fff
+            classDef orange fill:#fc822b,stroke:#000,stroke-width:2px,color:#fff
+            classDef red fill:#ed2633,stroke:#000,stroke-width:2px,color:#fff
+            classDef green fill:#16b522,stroke:#000,stroke-width:2px,color:#fff
+
+            _1((Server)):::blue <-- TCP --> _2([Client 1]):::pink
+            _1 <-- TCP --> _3([Client N]):::pink
     </div>
 </pre>
 
@@ -284,36 +290,6 @@ implemented a checkpoint system so that tasks could simply:
 `yield <checkpoint object>` and that object would be passed to `drop()` as the
 last checkpoint encountered before deallocating resources.
 
-<!-- TODO(pbz): Create mermaid diagrams for this stuff. -->
-
-
-
-
-
-
-
-
-
-
-
-**Graphics and Input**
-
-- Rendering with Raylib
-- Gamepad Input Management
-
-Input was gathered using Raylib. Gamepad input was extremely easy to obtain and
-manage. Graphics were rendered using Raylib.
-
-
-
-
-
-
-
-
-
-
-
 **3D Boxel Design**
 
 Boxels are designed to support a different texture on each of the 6 sides and be
@@ -350,6 +326,15 @@ Specifying side textures to cache used these combinations:
 A small benefit of this was that if a boxel had the same texture ID for all of
 it's sides, only one texture ID would need to be sent over the network when the
 map changed.
+
+All of the textures except the player textures were generated using
+[Midjourney](https://www.midjourney.com/). I half expected to not feel a sense
+of ownership or satisfaction after using AI to generate textures but I gotta
+say, it was so much fun! It turns out that although the AI generates everything
+for you, it actually takes quite a bit of effort to describe what you want in
+terms that it will accept. Most of the time it takes multiple descriptions
+refined over 1-10 attempts in order to get the result you want. This is real
+work, although the tool in this case is a text prompt.
 
 **Resource Caching**
 
@@ -483,7 +468,7 @@ value they possess more deliberately.
 heard to code I've written that day to projects I worked on a year ago.
 Basically, stochastic ideation is when you take an existing something, such as a
 song, and progressively add entropy to the elements you understand until
-entirely new forms of that thing are created. A simple example would be the
+entirely new forms of that thing are created. A simple example would be
 [Rockelbel's Canon](https://www.youtube.com/watch?v=LV5_xj_yuhs), a rendition of
 Pachelbel's Canon in D by the Piano Guys. They take an existing framework (the
 original Canon in D song) and stray from it at key pleasing points so much so
