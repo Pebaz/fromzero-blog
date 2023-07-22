@@ -28,6 +28,11 @@ Boxels is the result of this effort. Since it was for my own personal closure,
 it is not released and not open source, so the public-facing deliverable is this
 post.
 
+<video controls>
+    <source src="../static/vid/boxels/boxels-2.5x.mp4" type="video/mp4">
+    The video couldn't render. Is this within a Markdown viewer or a browser?
+</video>
+
 ## Overall Design of Boxels
 
 Boxels refer to a nomenclature I have developed over the years:
