@@ -31,20 +31,40 @@ CSS Styles for both pages and posts.
 }
 
 .aside-1 {
-    /* background: gold; */
+    background: gold;
 }
 
 .aside-2 {
-    /* background: hotpink; */
+    background: hotpink;
+}
+
+@media all and (max-width: 600px) {
+    body {
+        font-size: 10px;
+    }
+
+    ul {
+        padding-left: 0;
+        list-style-position: outside;
+        margin-left: 2em;
+    }
 }
 
 @media all and (min-width: 600px) {
     .aside {
         flex: 1 0 0;
     }
+
+    body {
+        font-size: 16px;
+    }
 }
 
-@media all and (min-width: 800px) {
+@media all and (min-width: 1200px) {
+    body {
+        font-size: 16px;
+    }
+
     .main {
         flex: 3 0px;
     }

@@ -557,21 +557,21 @@ to upload it to Itch.io or Steam.
 If I had to leave a <abbr title="Too Long, Didn't Read">TLDR</abbr>, here's what
 I'd say:
 
-> **Key Takeaways**
->
-> * Good code leading to good technology can be written in any language, but it
+**Key Takeaways**
+
+* Good code leading to good technology can be written in any language, but it
     might require breaking away from established norms in order to get there.
     Specifically, I didn't do test driven development and inheritance
     hierarchies are shallow. There are functions defined in global scope and I
     didn't focus too much on code reusability. Hopefully in another post I'll go
     over my thoughts on my exact programming philosophy but for now I'll reduce
     it to: don't overuse object-oriented or functional programming.
->
-> * Don't underestimate the effort required for making networked multiplayer
+
+* Don't underestimate the effort required for making networked multiplayer
     games. The client and server are not two separate projects, the effort
     involved is more than 2 times a single player game.
->
-> * Don't make games in Python. As much as it pains me to say, I truly should
+
+* Don't make games in Python. As much as it pains me to say, I truly should
     have switched to C++ 6-8 years ago. If Rust had been around, I would have
     used that but it wasn't mainstream back then. I thought I could use enough
     high performance C extensions to make up for it but the truth is that Python
