@@ -31,11 +31,11 @@ CSS Styles for both pages and posts.
 }
 
 .aside-1 {
-    background: gold;
+    /* background: gold; */
 }
 
 .aside-2 {
-    background: hotpink;
+    /* background: hotpink; */
 }
 
 @media all and (max-width: 600px) {
